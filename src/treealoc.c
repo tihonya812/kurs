@@ -27,7 +27,17 @@ void* treealoc_malloc(size_t size) {
     snprintf(log_msg, sizeof(log_msg), "[DEBUG] root = %p", root);
     log_to_file(log_msg);
 
-    void* ptr = malloc(size);
+    // Сначала пытаемся найти свободный блок
+    void* ptr = btree_find_best_fit(size);
+    if (ptr) {
+        printf("[treealoc] Reused free block %p (size %zu)\n", ptr, size);
+        snprintf(log_msg, sizeof(log_msg), "[treealoc] Reused free block %p (size %zu)", ptr, size);
+        log_to_file(log_msg);
+        return ptr;
+    }
+
+    // Если свободного блока нет, выделяем новый через malloc
+    ptr = malloc(size);
     if (!ptr) {
         printf("[ERROR] malloc failed\n");
         log_to_file("[ERROR] malloc failed");

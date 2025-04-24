@@ -21,5 +21,6 @@ void btree_insert(size_t size, void* ptr);
 void btree_remove(void* ptr);
 void btree_debug(void);
 BNode* find_node(BNode* node, void* ptr, int* index);
+void* btree_find_best_fit(size_t size); 
 
 #endif

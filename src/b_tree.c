@@ -164,3 +164,48 @@ void btree_remove(void* ptr) {
         printf("[btree] Block %p not found\n", ptr);
     }
 }
+
+// Статическая функция для рекурсивного поиска лучшего блока
+static void search_best_fit(BNode* node, size_t size, void** best_block, size_t* best_size, int* best_index, BNode** best_node) {
+    if (!node) return;
+
+    // Проверяем текущий узел
+    for (int i = 0; i < node->n; i++) {
+        if (node->is_free[i] && node->sizes[i] >= size) {
+            if (node->sizes[i] < *best_size) {
+                *best_block = node->blocks[i];
+                *best_size = node->sizes[i];
+                *best_index = i;
+                *best_node = node;
+            }
+        }
+    }
+
+    // Рекурсивно проверяем дочерние узлы
+    if (!node->leaf) {
+        for (int i = 0; i <= node->n; i++) {
+            search_best_fit(node->children[i], size, best_block, best_size, best_index, best_node);
+        }
+    }
+}
+
+void* btree_find_best_fit(size_t size) {
+    if (!root) return NULL;
+
+    void* best_block = NULL;
+    size_t best_size = SIZE_MAX;
+    int best_index = -1;
+    BNode* best_node = NULL;
+
+    search_best_fit(root, size, &best_block, &best_size, &best_index, &best_node);
+
+    if (best_block) {
+        printf("[btree] Found best fit block %p (size %zu) for size %zu\n", best_block, best_size, size);
+        best_node->is_free[best_index] = 0; // Помечаем блок как занятый
+        tree_modified = 1;
+        return best_block;
+    }
+
+    printf("[btree] No suitable free block found for size %zu\n", size);
+    return NULL;
+}
