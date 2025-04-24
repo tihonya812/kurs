@@ -28,7 +28,7 @@ $(LIB): $(LIB_OBJ)
 
 # Сборка тестового проекта
 $(TEST): $(TEST_SRC) $(LIB)
-	$(CC) $(CFLAGS) -o $@ $(TEST_SRC) -L$(BUILD_DIR) -ltreealoc -Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=realloc -Wl,--wrap=calloc
+	$(CC) $(CFLAGS) -o $@ $(TEST_SRC) -L$(BUILD_DIR) -ltreealoc -Wl,--wrap=malloc,--wrap=free,--wrap=realloc,--wrap=calloc,-rpath=$(BUILD_DIR)
 
 # Компиляция исходных файлов
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c

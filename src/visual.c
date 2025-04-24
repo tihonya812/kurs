@@ -4,12 +4,12 @@
 #include "b_tree.h"
 #include "visual.h"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
-#define NODE_WIDTH 120
-#define NODE_HEIGHT 40
-#define VERTICAL_SPACING 80
-#define HORIZONTAL_SPACING 20
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
+#define NODE_WIDTH 180
+#define NODE_HEIGHT 60
+#define VERTICAL_SPACING 100
+#define HORIZONTAL_SPACING 30
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -33,15 +33,19 @@ void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
 
     if (font) {
         char text[64];
-        snprintf(text, sizeof(text), "%zu@%p %s", size, addr, is_free ? "free" : "used");
+        snprintf(text, sizeof(text), "Size: %zu\nAddr: %p\n%s", size, addr, is_free ? "Free" : "Used");
         SDL_Color color = {0, 0, 0, 255};
-        SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
+        SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(font, text, color, NODE_WIDTH - 10);
         if (surface) {
             SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-            SDL_Rect text_rect = {x - NODE_WIDTH / 2 + 5, y + 5, surface->w, surface->h};
-            SDL_RenderCopy(renderer, texture, NULL, &text_rect);
+            if (texture) {
+                SDL_Rect text_rect = {x - NODE_WIDTH / 2 + 5, y + 5, surface->w, surface->h};
+                SDL_RenderCopy(renderer, texture, NULL, &text_rect);
+                SDL_DestroyTexture(texture);
+            } else {
+                printf("[visual] Failed to create texture: %s\n", SDL_GetError());
+            }
             SDL_FreeSurface(surface);
-            SDL_DestroyTexture(texture);
         } else {
             printf("[visual] Failed to render text: %s\n", TTF_GetError());
         }
@@ -102,7 +106,7 @@ int visual_main_loop() {
     }
     printf("[visual] Renderer created\n");
 
-    font = TTF_OpenFont("/usr/share/fonts/liberation/LiberationSans-Regular.ttf", 12);
+    font = TTF_OpenFont("/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf", 18);
     if (!font) {
         printf("[visual] TTF_OpenFont failed: %s\n", TTF_GetError());
     } else {
@@ -111,13 +115,28 @@ int visual_main_loop() {
 
     int running = 1;
     SDL_Event e;
+    static float scale = 1.0f;
 
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) running = 0;
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.sym == SDLK_PLUS || e.key.keysym.sym == SDLK_EQUALS) {
+                    scale += 0.1f;
+                    printf("[visual] Scale increased to %.1fx\n", scale);
+                }
+                if (e.key.keysym.sym == SDLK_MINUS) {
+                    scale -= 0.1f;
+                    printf("[visual] Scale decreased to %.1fx\n", scale);
+                }
+                if (scale < 0.5f) scale = 0.5f;
+                if (scale > 2.0f) scale = 2.0f;
+            }
         }
 
+        SDL_RenderSetScale(renderer, scale, scale);
         draw_tree();
+        SDL_RenderSetScale(renderer, 1.0f, 1.0f); // Сбрасываем масштаб
         SDL_Delay(100);
     }
 
