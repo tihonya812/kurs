@@ -28,7 +28,7 @@ $(LIB): $(LIB_OBJ)
 
 # Сборка тестового проекта
 $(TEST): $(TEST_SRC) $(LIB)
-	$(CC) $(CFLAGS) -o $@ $(TEST_SRC) -L$(BUILD_DIR) -ltreealoc -Wl,--wrap=malloc,--wrap=free,--wrap=realloc,--wrap=calloc,-rpath=$(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $@ $(TEST_SRC) -L$(BUILD_DIR) -ltreealoc -Wl,--wrap=malloc,--wrap=free,--wrap=realloc,--wrap=calloc,-rpath=$(BUILD_DIR) $(LDLIBS)
 
 # Компиляция исходных файлов
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
@@ -37,4 +37,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all clean
+install: $(LIB)
+	cp $(LIB) /usr/local/lib/
+	cp $(SRC_DIR)/treealoc.h /usr/local/include/
+
+.PHONY: all clean install

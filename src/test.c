@@ -74,11 +74,11 @@ void test_calloc() {
 void test_intensive() {
     printf("=== Test 4: Intensive malloc/free ===\n");
     void* ptrs[50];
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 15; i++) {
         ptrs[i] = malloc(rand() % 256 + 1);
         sleep(1);
     }
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 15; i++) {
         free(ptrs[i]);
         sleep(1);
     }
@@ -149,7 +149,16 @@ int main() {
     while (1) {
         print_menu();
         if (fgets(input, sizeof(input), stdin) == NULL) break;
-        clear_input_buffer();
+
+        // Удаляем символ новой строки из строки, если он есть
+        size_t len = strlen(input);
+        if (len > 0 && input[len - 1] == '\n') {
+            input[len - 1] = '\0'; // Убираем '\n'
+        } else {
+            // Если '\n' не было в строке, очищаем буфер
+            clear_input_buffer();
+        }
+
         choice = atoi(input);
         switch (choice) {
             case 1: test_simple_malloc_free(); break;
@@ -173,6 +182,6 @@ int main() {
 
 exit:
     pthread_join(vis_thread, NULL);
-    treealoc_cleanup(); // Добавляем очистку
+    treealoc_cleanup();
     return 0;
 }

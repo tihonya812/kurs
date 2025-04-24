@@ -15,6 +15,7 @@ typedef struct BNode {
 } BNode;
 
 extern BNode* root;
+extern int tree_modified; // Добавляем флаг
 
 void btree_insert(size_t size, void* ptr);
 void btree_remove(void* ptr);

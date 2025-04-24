@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 BNode* root = NULL;
+int tree_modified = 0; // Флаг изменения дерева
 
 static BNode* create_node(int leaf) {
     BNode* node = malloc(sizeof(BNode));
@@ -20,6 +21,7 @@ static BNode* create_node(int leaf) {
         node->is_free[i] = 0;
     }
     printf("[btree] Created node %p (leaf=%d)\n", node, leaf);
+    tree_modified = 1; // Устанавливаем флаг
     return node;
 }
 
@@ -57,6 +59,7 @@ static void split_child(BNode* parent, int i, BNode* child) {
     parent->is_free[i] = child->is_free[T-1];
     parent->n++;
     printf("[btree] Split child %p at index %d, new node %p\n", child, i, new_node);
+    tree_modified = 1;
 }
 
 static void insert_nonfull(BNode* node, size_t size, void* ptr) {
@@ -74,6 +77,7 @@ static void insert_nonfull(BNode* node, size_t size, void* ptr) {
         node->is_free[i+1] = 0;
         node->n++;
         printf("[btree] Inserted block %p (size %zu) into node %p\n", ptr, size, node);
+        tree_modified = 1;
     } else {
         while (i >= 0 && node->blocks[i] > ptr) i--;
         i++;
@@ -93,6 +97,7 @@ void btree_insert(size_t size, void* ptr) {
         root->is_free[0] = 0;
         root->n = 1;
         printf("[btree] Inserted block %p (size %zu) as root\n", ptr, size);
+        tree_modified = 1;
         return;
     }
 
@@ -154,6 +159,7 @@ void btree_remove(void* ptr) {
     if (node) {
         node->is_free[index] = 1;
         printf("[btree] Marked block %p as free\n", ptr);
+        tree_modified = 1;
     } else {
         printf("[btree] Block %p not found\n", ptr);
     }

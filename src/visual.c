@@ -4,53 +4,95 @@
 #include "b_tree.h"
 #include "visual.h"
 
-#define WINDOW_WIDTH 1500
-#define WINDOW_HEIGHT 1200
-#define NODE_WIDTH 120
+int WINDOW_WIDTH = 1500;
+int WINDOW_HEIGHT = 1200;
+#define NODE_WIDTH 100 // Увеличиваем ширину узлов
 #define NODE_HEIGHT 60
 #define VERTICAL_SPACING 100
-#define HORIZONTAL_SPACING 40 // Добавляем определение
+#define HORIZONTAL_SPACING 40
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 TTF_Font* font = NULL;
 
-static int tree_changed = 1; // Флаг для перерисовки
+static int tree_changed = 1;
 
-void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale);
+// Для debounce при изменении размера окна
+static Uint32 last_resize_time = 0;
+static const Uint32 RESIZE_DEBOUNCE_MS = 100; // Задержка 100 мс
+
+// Структура для хранения информации о ширине уровня
+typedef struct {
+    int node_count;
+    int total_width;
+} LevelInfo;
+
+void calculate_level_width(BNode* node, int depth, LevelInfo* levels, int max_depth) {
+    if (!node) return;
+    levels[depth].node_count += node->n;
+    levels[depth].total_width = levels[depth].node_count * (NODE_WIDTH + HORIZONTAL_SPACING);
+    for (int i = 0; i <= node->n; i++) {
+        if (node->children[i]) {
+            calculate_level_width(node->children[i], depth + 1, levels, max_depth);
+        }
+    }
+}
+
+void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale, LevelInfo* levels);
 
 void draw_tree(int offset_x, int offset_y, float scale) {
+    extern int tree_modified;
     static int last_node_count = -1;
-    if (!tree_changed) return;
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white
+    if (!tree_changed && !tree_modified) return;
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
+
+    LevelInfo levels[10] = {0};
+    calculate_level_width(root, 0, levels, 10);
+
     int node_count = 0;
-    draw_node(root, WINDOW_WIDTH / 2 + offset_x, 50 + offset_y, 0, &node_count, 0, 0, scale);
+    draw_node(root, WINDOW_WIDTH / 2 + offset_x, 50 + offset_y, 0, &node_count, 0, 0, scale, levels);
     if (node_count != last_node_count) {
         printf("[visual] Total nodes displayed: %d\n", node_count);
         last_node_count = node_count;
     }
     SDL_RenderPresent(renderer);
     tree_changed = 0;
+    tree_modified = 0;
 }
 
 void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
+    // Рисуем тень (смещённый прямоугольник)
+    SDL_Rect shadow_rect = {x - NODE_WIDTH / 2 + 3, y + 3, NODE_WIDTH, NODE_HEIGHT};
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 150); // Полупрозрачная тень
+    SDL_RenderFillRect(renderer, &shadow_rect);
+
+    // Рисуем основной прямоугольник
     SDL_Rect rect = {x - NODE_WIDTH / 2, y, NODE_WIDTH, NODE_HEIGHT};
-    SDL_SetRenderDrawColor(renderer, is_free ? 0 : 200, is_free ? 200 : 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, is_free ? 0 : 180, is_free ? 180 : 0, 0, 255); // Тёмно-зелёный или тёмно-красный
     SDL_RenderFillRect(renderer, &rect);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+    // Рисуем обводку
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Белая обводка
     SDL_RenderDrawRect(renderer, &rect);
 
     if (font) {
         char text[64];
-        snprintf(text, sizeof(text), "Size: %zu\nAddr: %p\n%s", size, addr, is_free ? "Free" : "Used");
-        SDL_Color color = {0, 0, 0, 255};
+        snprintf(text, sizeof(text), "%zu\n%p", size, addr); // Убираем статус
+        SDL_Color color = {255, 255, 255, 255}; // Белый текст
         SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(font, text, color, NODE_WIDTH - 10);
         if (surface) {
             SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
             if (texture) {
-                SDL_Rect text_rect = {x - NODE_WIDTH / 2 + 5, y + 5, surface->w, surface->h};
+                // Центрируем текст
+                SDL_Rect text_rect = {
+                    x - NODE_WIDTH / 2 + (NODE_WIDTH - surface->w) / 2,
+                    y + (NODE_HEIGHT - surface->h) / 2,
+                    surface->w,
+                    surface->h
+                };
                 SDL_RenderCopy(renderer, texture, NULL, &text_rect);
                 SDL_DestroyTexture(texture);
             } else {
@@ -63,14 +105,15 @@ void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
     }
 }
 
-void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale) {
+void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale, LevelInfo* levels) {
     if (!node) return;
 
-    // Динамическое расстояние между узлами: на нижних уровнях узлы ближе друг к другу
-    int horizontal_spacing = HORIZONTAL_SPACING / (depth + 1); // Теперь HORIZONTAL_SPACING определён
-    if (horizontal_spacing < 10) horizontal_spacing = 10; // Минимальное расстояние
+    int level_width = levels[depth].total_width;
+    int node_count_on_level = levels[depth].node_count;
+    int horizontal_spacing = node_count_on_level > 1 ? (WINDOW_WIDTH - node_count_on_level * NODE_WIDTH) / (node_count_on_level - 1) : HORIZONTAL_SPACING;
+    if (horizontal_spacing < 20) horizontal_spacing = 20;
+    if (horizontal_spacing > HORIZONTAL_SPACING * 2) horizontal_spacing = HORIZONTAL_SPACING * 2;
 
-    // Подсчитываем ключи в узле
     int first_key_x = x;
     for (int i = 0; i < node->n; i++) {
         int key_x = x + (i - node->n/2) * (NODE_WIDTH + horizontal_spacing);
@@ -79,17 +122,15 @@ void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent
         (*node_count)++;
     }
 
-    // Рисуем линию к родителю, если это не корень
     if (depth > 0) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderDrawLine(renderer, first_key_x, y, parent_x, parent_y + NODE_HEIGHT);
     }
 
-    // Рисуем дочерние узлы
     for (int i = 0; i <= node->n; i++) {
         if (node->children[i]) {
             int child_x = x + (i - node->n/2) * (NODE_WIDTH + horizontal_spacing);
-            draw_node(node->children[i], child_x, y + VERTICAL_SPACING, depth + 1, node_count, first_key_x, y, scale);
+            draw_node(node->children[i], child_x, y + VERTICAL_SPACING, depth + 1, node_count, first_key_x, y, scale, levels);
         }
     }
 }
@@ -118,9 +159,7 @@ int visual_main_loop() {
     }
     printf("[visual] Window created\n");
 
-    renderer = SDL_CreateRenderer
-
-(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         printf("[visual] SDL_CreateRenderer failed: %s\n", SDL_GetError());
         SDL_DestroyWindow(window);
@@ -130,7 +169,7 @@ int visual_main_loop() {
     }
     printf("[visual] Renderer created\n");
 
-    font = TTF_OpenFont("/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf", 18);
+    font = TTF_OpenFont("/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf", 14); // Возвращаем шрифт 14
     if (!font) {
         printf("[visual] TTF_OpenFont failed: %s\n", TTF_GetError());
     } else {
@@ -189,6 +228,16 @@ int visual_main_loop() {
                         }
                         tree_changed = 1;
                         break;
+                }
+            }
+            if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_RESIZED) {
+                Uint32 current_time = SDL_GetTicks();
+                if (current_time - last_resize_time >= RESIZE_DEBOUNCE_MS) {
+                    WINDOW_WIDTH = e.window.data1;
+                    WINDOW_HEIGHT = e.window.data2;
+                    printf("[visual] Window resized to %dx%d\n", WINDOW_WIDTH, WINDOW_HEIGHT);
+                    tree_changed = 1;
+                    last_resize_time = current_time;
                 }
             }
         }
