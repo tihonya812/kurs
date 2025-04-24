@@ -6,16 +6,15 @@
 #include <time.h>
 
 static int initialized = 0;
+static FILE* log_file = NULL;
 
 void log_to_file(const char* message) {
-    FILE* log_file = fopen("treealoc.log", "a");
-    if (log_file) {
-        time_t now = time(NULL);
-        char* timestamp = ctime(&now);
-        timestamp[strlen(timestamp) - 1] = '\0'; // Удаляем \n
-        fprintf(log_file, "[%s] %s\n", timestamp, message);
-        fclose(log_file);
-    }
+    if (!log_file) return;
+    time_t now = time(NULL);
+    char* timestamp = ctime(&now);
+    timestamp[strlen(timestamp) - 1] = '\0'; // Удаляем \n
+    fprintf(log_file, "[%s] %s\n", timestamp, message);
+    fflush(log_file); // Гарантируем запись в файл
 }
 
 void* treealoc_malloc(size_t size) {
@@ -28,15 +27,7 @@ void* treealoc_malloc(size_t size) {
     snprintf(log_msg, sizeof(log_msg), "[DEBUG] root = %p", root);
     log_to_file(log_msg);
 
-    void* ptr = btree_find_best_fit(size);
-    if (ptr) {
-        printf("[treealoc] reused block for malloc(%zu) = %p\n", size, ptr);
-        snprintf(log_msg, sizeof(log_msg), "[treealoc] reused block for malloc(%zu) = %p", size, ptr);
-        log_to_file(log_msg);
-        return ptr;
-    }
-
-    ptr = malloc(size);
+    void* ptr = malloc(size);
     if (!ptr) {
         printf("[ERROR] malloc failed\n");
         log_to_file("[ERROR] malloc failed");
@@ -67,32 +58,24 @@ void* treealoc_realloc(void* ptr, size_t size) {
         return ptr;
     }
 
-    void* new_ptr = btree_find_best_fit(size);
-    if (new_ptr) {
-        size_t old_size = node ? node->sizes[index] : size;
-        memcpy(new_ptr, ptr, old_size < size ? old_size : size);
-        btree_remove(ptr);
-        printf("[treealoc] Reused block for realloc(%p, %zu) = %p\n", ptr, size, new_ptr);
-        snprintf(log_msg, sizeof(log_msg), "[treealoc] Reused block for realloc(%p, %zu) = %p", ptr, size, new_ptr);
-        log_to_file(log_msg);
-        return new_ptr;
-    }
-
-    void* old_ptr = ptr;
-    btree_remove(old_ptr);
-    printf("[treealoc] realloc(%p, %zu) = ", old_ptr, size);
-    snprintf(log_msg, sizeof(log_msg), "[treealoc] realloc(%p, %zu) = ", old_ptr, size);
-    log_to_file(log_msg);
-    new_ptr = realloc(old_ptr, size);
+    void* new_ptr = malloc(size);
     if (!new_ptr) {
-        printf("failed\n");
+        printf("[ERROR] realloc failed\n");
         log_to_file("[ERROR] realloc failed");
         return NULL;
     }
+    if (node) {
+        size_t old_size = node->sizes[index];
+        memcpy(new_ptr, ptr, old_size < size ? old_size : size);
+        btree_remove(ptr);
+    }
+    btree_insert(size, new_ptr);
+    printf("[treealoc] realloc(%p, %zu) = ", ptr, size);
+    snprintf(log_msg, sizeof(log_msg), "[treealoc] realloc(%p, %zu) = ", ptr, size);
+    log_to_file(log_msg);
     printf("%p\n", new_ptr);
     snprintf(log_msg, sizeof(log_msg), "%p", new_ptr);
     log_to_file(log_msg);
-    btree_insert(size, new_ptr);
     return new_ptr;
 }
 
@@ -120,9 +103,23 @@ void treealoc_free(void* ptr) {
 }
 
 void treealoc_init() {
-    initialized = 1;
-    printf("[treealoc] Initialized!\n");
-    log_to_file("[treealoc] Initialized!");
+    if (!initialized) {
+        log_file = fopen("treealoc.log", "a");
+        if (!log_file) {
+            printf("[ERROR] Failed to open log file\n");
+        }
+        initialized = 1;
+        printf("[treealoc] Initialized!\n");
+        log_to_file("[treealoc] Initialized!");
+    }
+}
+
+void treealoc_cleanup() {
+    if (log_file) {
+        log_to_file("[treealoc] Cleanup");
+        fclose(log_file);
+        log_file = NULL;
+    }
 }
 
 void treealoc_debug() {

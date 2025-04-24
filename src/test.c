@@ -6,13 +6,11 @@
 #include "treealoc.h"
 #include "visual.h"
 
-// Объявления оригинальных функций
 extern void* __real_malloc(size_t size);
 extern void __real_free(void* ptr);
 extern void* __real_realloc(void* ptr, size_t size);
 extern void* __real_calloc(size_t nmemb, size_t size);
 
-// Хуки
 void* __wrap_malloc(size_t size) {
     void* ptr = treealoc_malloc(size);
     printf("[HOOK] malloc(%zu) = %p\n", size, ptr);
@@ -123,6 +121,11 @@ void test_edge_cases() {
     sleep(1);
 }
 
+void clear_input_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 void print_menu() {
     printf("\n=== Treealoc Test Menu ===\n");
     printf("1. Simple malloc/free\n");
@@ -146,6 +149,7 @@ int main() {
     while (1) {
         print_menu();
         if (fgets(input, sizeof(input), stdin) == NULL) break;
+        clear_input_buffer();
         choice = atoi(input);
         switch (choice) {
             case 1: test_simple_malloc_free(); break;
@@ -169,5 +173,6 @@ int main() {
 
 exit:
     pthread_join(vis_thread, NULL);
+    treealoc_cleanup(); // Добавляем очистку
     return 0;
 }

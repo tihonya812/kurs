@@ -4,24 +4,35 @@
 #include "b_tree.h"
 #include "visual.h"
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
-#define NODE_WIDTH 180
+#define WINDOW_WIDTH 1500
+#define WINDOW_HEIGHT 1200
+#define NODE_WIDTH 120
 #define NODE_HEIGHT 60
 #define VERTICAL_SPACING 100
-#define HORIZONTAL_SPACING 30
+#define HORIZONTAL_SPACING 40 // Добавляем определение
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 TTF_Font* font = NULL;
 
-void draw_node(BNode* node, int x, int y, int depth);
+static int tree_changed = 1; // Флаг для перерисовки
 
-void draw_tree() {
+void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale);
+
+void draw_tree(int offset_x, int offset_y, float scale) {
+    static int last_node_count = -1;
+    if (!tree_changed) return;
+
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white
     SDL_RenderClear(renderer);
-    draw_node(root, WINDOW_WIDTH / 2, 50, 0);
+    int node_count = 0;
+    draw_node(root, WINDOW_WIDTH / 2 + offset_x, 50 + offset_y, 0, &node_count, 0, 0, scale);
+    if (node_count != last_node_count) {
+        printf("[visual] Total nodes displayed: %d\n", node_count);
+        last_node_count = node_count;
+    }
     SDL_RenderPresent(renderer);
+    tree_changed = 0;
 }
 
 void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
@@ -52,22 +63,33 @@ void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
     }
 }
 
-void draw_node(BNode* node, int x, int y, int depth) {
+void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale) {
     if (!node) return;
 
-    // Рисуем каждый ключ в узле
+    // Динамическое расстояние между узлами: на нижних уровнях узлы ближе друг к другу
+    int horizontal_spacing = HORIZONTAL_SPACING / (depth + 1); // Теперь HORIZONTAL_SPACING определён
+    if (horizontal_spacing < 10) horizontal_spacing = 10; // Минимальное расстояние
+
+    // Подсчитываем ключи в узле
+    int first_key_x = x;
     for (int i = 0; i < node->n; i++) {
-        int key_x = x + (i - node->n/2) * (NODE_WIDTH + HORIZONTAL_SPACING);
+        int key_x = x + (i - node->n/2) * (NODE_WIDTH + horizontal_spacing);
+        if (i == 0) first_key_x = key_x;
         draw_rect_with_text(key_x, y, node->sizes[i], node->blocks[i], node->is_free[i]);
+        (*node_count)++;
+    }
+
+    // Рисуем линию к родителю, если это не корень
+    if (depth > 0) {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderDrawLine(renderer, first_key_x, y, parent_x, parent_y + NODE_HEIGHT);
     }
 
     // Рисуем дочерние узлы
     for (int i = 0; i <= node->n; i++) {
         if (node->children[i]) {
-            int child_x = x + (i - node->n/2) * (NODE_WIDTH + HORIZONTAL_SPACING);
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            SDL_RenderDrawLine(renderer, x, y + NODE_HEIGHT, child_x, y + VERTICAL_SPACING);
-            draw_node(node->children[i], child_x, y + VERTICAL_SPACING, depth + 1);
+            int child_x = x + (i - node->n/2) * (NODE_WIDTH + horizontal_spacing);
+            draw_node(node->children[i], child_x, y + VERTICAL_SPACING, depth + 1, node_count, first_key_x, y, scale);
         }
     }
 }
@@ -87,7 +109,7 @@ int visual_main_loop() {
     printf("[visual] TTF initialized\n");
 
     window = SDL_CreateWindow("Treealoc Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+                              WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
     if (!window) {
         printf("[visual] SDL_CreateWindow failed: %s\n", SDL_GetError());
         TTF_Quit();
@@ -96,7 +118,9 @@ int visual_main_loop() {
     }
     printf("[visual] Window created\n");
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer
+
+(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         printf("[visual] SDL_CreateRenderer failed: %s\n", SDL_GetError());
         SDL_DestroyWindow(window);
@@ -115,28 +139,63 @@ int visual_main_loop() {
 
     int running = 1;
     SDL_Event e;
-    static float scale = 1.0f;
+    float scale = 1.0f;
+    int offset_x = 300;
+    int offset_y = 0;
+    int fullscreen = 0;
 
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) running = 0;
             if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.sym == SDLK_PLUS || e.key.keysym.sym == SDLK_EQUALS) {
-                    scale += 0.1f;
-                    printf("[visual] Scale increased to %.1fx\n", scale);
+                switch (e.key.keysym.sym) {
+                    case SDLK_PLUS:
+                    case SDLK_EQUALS:
+                        scale += 0.1f;
+                        if (scale > 3.0f) scale = 3.0f;
+                        printf("[visual] Scale increased to %.1fx\n", scale);
+                        tree_changed = 1;
+                        break;
+                    case SDLK_MINUS:
+                        scale -= 0.1f;
+                        if (scale < 0.3f) scale = 0.3f;
+                        printf("[visual] Scale decreased to %.1fx\n", scale);
+                        tree_changed = 1;
+                        break;
+                    case SDLK_w:
+                        offset_y += 50;
+                        tree_changed = 1;
+                        break;
+                    case SDLK_s:
+                        offset_y -= 50;
+                        tree_changed = 1;
+                        break;
+                    case SDLK_a:
+                        offset_x += 50;
+                        tree_changed = 1;
+                        break;
+                    case SDLK_d:
+                        offset_x -= 50;
+                        tree_changed = 1;
+                        break;
+                    case SDLK_f:
+                        fullscreen = !fullscreen;
+                        if (fullscreen) {
+                            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                            printf("[visual] Fullscreen enabled\n");
+                        } else {
+                            SDL_SetWindowFullscreen(window, 0);
+                            printf("[visual] Fullscreen disabled\n");
+                        }
+                        tree_changed = 1;
+                        break;
                 }
-                if (e.key.keysym.sym == SDLK_MINUS) {
-                    scale -= 0.1f;
-                    printf("[visual] Scale decreased to %.1fx\n", scale);
-                }
-                if (scale < 0.5f) scale = 0.5f;
-                if (scale > 2.0f) scale = 2.0f;
             }
         }
 
         SDL_RenderSetScale(renderer, scale, scale);
-        draw_tree();
-        SDL_RenderSetScale(renderer, 1.0f, 1.0f); // Сбрасываем масштаб
+        draw_tree(offset_x, offset_y, scale);
+        SDL_RenderSetScale(renderer, 1.0f, 1.0f);
         SDL_Delay(100);
     }
 
