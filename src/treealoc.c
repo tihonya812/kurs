@@ -4,42 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-extern void* __real_malloc(size_t size);
-extern void __real_free(void* ptr);
-extern void* __real_realloc(void* ptr, size_t size);
-extern void* __real_calloc(size_t nmemb, size_t size);
-
 static int initialized = 0;
-
-void* __wrap_malloc(size_t size) {
-    if (!initialized) return __real_malloc(size);
-    void* ptr = treealoc_malloc(size);
-    printf("[HOOK] malloc(%zu) = %p\n", size, ptr);
-    return ptr;
-}
-
-void __wrap_free(void* ptr) {
-    if (!initialized) {
-        __real_free(ptr);
-        return;
-    }
-    printf("[HOOK] free(%p)\n", ptr);
-    treealoc_free(ptr);
-}
-
-void* __wrap_realloc(void* ptr, size_t size) {
-    if (!initialized) return __real_realloc(ptr, size);
-    void* new_ptr = treealoc_realloc(ptr, size);
-    printf("[HOOK] realloc(%p, %zu) = %p\n", ptr, size, new_ptr);
-    return new_ptr;
-}
-
-void* __wrap_calloc(size_t nmemb, size_t size) {
-    if (!initialized) return __real_calloc(nmemb, size);
-    void* ptr = treealoc_calloc(nmemb, size);
-    printf("[HOOK] calloc(%zu, %zu) = %p\n", nmemb, size, ptr);
-    return ptr;
-}
 
 void* treealoc_malloc(size_t size) {
     printf("[DEBUG] Inside treealoc_malloc(%zu)\n", size);
@@ -50,9 +15,9 @@ void* treealoc_malloc(size_t size) {
         return ptr;
     }
 
-    ptr = __real_malloc(size);
+    ptr = malloc(size);
     if (!ptr) {
-        printf("[ERROR] real malloc failed\n");
+        printf("[ERROR] malloc failed\n");
         return NULL;
     }
     btree_insert(size, ptr);
@@ -84,7 +49,7 @@ void* treealoc_realloc(void* ptr, size_t size) {
         return new_ptr;
     }
 
-    new_ptr = __real_realloc(ptr, size);
+    new_ptr = realloc(ptr, size);
     if (new_ptr) {
         btree_remove(ptr);
         btree_insert(size, new_ptr);

@@ -5,6 +5,36 @@
 #include "treealoc.h"
 #include "visual.h"
 
+// Объявления оригинальных функций
+extern void* __real_malloc(size_t size);
+extern void __real_free(void* ptr);
+extern void* __real_realloc(void* ptr, size_t size);
+extern void* __real_calloc(size_t nmemb, size_t size);
+
+// Хуки
+void* __wrap_malloc(size_t size) {
+    void* ptr = treealoc_malloc(size);
+    printf("[HOOK] malloc(%zu) = %p\n", size, ptr);
+    return ptr;
+}
+
+void __wrap_free(void* ptr) {
+    printf("[HOOK] free(%p)\n", ptr);
+    treealoc_free(ptr);
+}
+
+void* __wrap_realloc(void* ptr, size_t size) {
+    void* new_ptr = treealoc_realloc(ptr, size);
+    printf("[HOOK] realloc(%p, %zu) = %p\n", ptr, size, new_ptr);
+    return new_ptr;
+}
+
+void* __wrap_calloc(size_t nmemb, size_t size) {
+    void* ptr = treealoc_calloc(nmemb, size);
+    printf("[HOOK] calloc(%zu, %zu) = %p\n", nmemb, size, ptr);
+    return ptr;
+}
+
 void* run_visual(void* arg) {
     visual_main_loop();
     return NULL;

@@ -4,13 +4,10 @@
 #include <stdint.h>
 #include <string.h>
 
-extern void* __real_malloc(size_t size);
-extern void __real_free(void* ptr);
-
 BNode* root = NULL;
 
 static BNode* create_node(int leaf) {
-    BNode* node = __real_malloc(sizeof(BNode));
+    BNode* node = malloc(sizeof(BNode));
     if (!node) return NULL;
     node->n = 0;
     node->leaf = leaf;
@@ -150,31 +147,30 @@ void btree_remove(void* ptr) {
     }
 }
 
+static void find_best(BNode* node, size_t size, void** best_block, size_t* best_size) {
+    if (!node) return;
+
+    // Проверяем ключи в текущем узле
+    for (int i = 0; i < node->n; i++) {
+        if (node->is_free[i] && node->sizes[i] >= size && node->sizes[i] < *best_size) {
+            *best_block = node->blocks[i];
+            *best_size = node->sizes[i];
+        }
+    }
+
+    // Рекурсивно обходим дочерние узлы
+    if (!node->leaf) {
+        for (int i = 0; i <= node->n; i++) {
+            find_best(node->children[i], size, best_block, best_size);
+        }
+    }
+}
+
 void* btree_find_best_fit(size_t size) {
-    BNode* current = root;
     void* best_block = NULL;
     size_t best_size = SIZE_MAX;
 
-    // Обходим дерево в глубину
-    while (current) {
-        for (int i = 0; i < current->n; i++) {
-            if (current->is_free[i] && current->sizes[i] >= size && current->sizes[i] < best_size) {
-                best_block = current->blocks[i];
-                best_size = current->sizes[i];
-            }
-        }
-        if (!current->leaf) {
-            for (int i = 0; i <= current->n; i++) {
-                // Рекурсивно проверяем все дочерние узлы
-                void* candidate = btree_find_best_fit(size);
-                if (candidate && best_size > size) {
-                    best_block = candidate;
-                    best_size = size;
-                }
-            }
-        }
-        break; // Пока обходим только корень, нужно доработать для полного обхода
-    }
+    find_best(root, size, &best_block, &best_size);
 
     if (best_block) {
         int index;
