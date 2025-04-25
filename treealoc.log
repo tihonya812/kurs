@@ -3796,3 +3796,653 @@
 [Fri Apr 25 02:40:17 2025] [treealoc] free(0x33c08df0)
 [Fri Apr 25 02:40:18 2025] [treealoc] free(0x33c08f80)
 [Fri Apr 25 02:40:24 2025] [treealoc] Cleanup
+[Fri Apr 25 04:25:40 2025] [treealoc] Initialized!
+[Fri Apr 25 04:38:39 2025] [treealoc] Cleanup
+[Fri Apr 25 04:38:53 2025] [treealoc] Initialized!
+[Fri Apr 25 04:39:10 2025] [treealoc] Cleanup
+[Fri Apr 25 04:39:21 2025] [treealoc] Initialized!
+[Fri Apr 25 04:39:43 2025] [treealoc] Cleanup
+[Fri Apr 25 04:46:42 2025] [treealoc] Initialized!
+[Fri Apr 25 04:46:56 2025] [DEBUG] Inside treealoc_malloc(32)
+[Fri Apr 25 04:46:56 2025] [DEBUG] root = (nil)
+[Fri Apr 25 04:46:56 2025] [treealoc] malloc(32) = 0xc69d310
+[Fri Apr 25 04:46:57 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 04:46:57 2025] [DEBUG] root = 0xc6a3460
+[Fri Apr 25 04:46:57 2025] [treealoc] malloc(64) = 0xc6a34e0
+[Fri Apr 25 04:46:58 2025] [treealoc] free(0xc69d310)
+[Fri Apr 25 04:46:59 2025] [treealoc] free(0xc6a34e0)
+[Fri Apr 25 04:47:28 2025] [treealoc] Cleanup
+[Fri Apr 25 04:47:29 2025] [treealoc] Initialized!
+[Fri Apr 25 04:47:32 2025] [DEBUG] Inside treealoc_malloc(104)
+[Fri Apr 25 04:47:32 2025] [DEBUG] root = (nil)
+[Fri Apr 25 04:47:32 2025] [treealoc] malloc(104) = 0x213ef570
+[Fri Apr 25 04:47:33 2025] [DEBUG] Inside treealoc_malloc(199)
+[Fri Apr 25 04:47:33 2025] [DEBUG] root = 0x213ef5e0
+[Fri Apr 25 04:47:33 2025] [treealoc] malloc(199) = 0x213ef660
+[Fri Apr 25 04:47:34 2025] [DEBUG] Inside treealoc_malloc(106)
+[Fri Apr 25 04:47:34 2025] [DEBUG] root = 0x213ef5e0
+[Fri Apr 25 04:47:34 2025] [treealoc] malloc(106) = 0x213ef730
+[Fri Apr 25 04:47:35 2025] [DEBUG] Inside treealoc_malloc(116)
+[Fri Apr 25 04:47:35 2025] [DEBUG] root = 0x213ef5e0
+[Fri Apr 25 04:47:35 2025] [treealoc] malloc(116) = 0x213ef7b0
+[Fri Apr 25 04:47:36 2025] [DEBUG] Inside treealoc_malloc(82)
+[Fri Apr 25 04:47:36 2025] [DEBUG] root = 0x213f50f0
+[Fri Apr 25 04:47:36 2025] [treealoc] malloc(82) = 0x213f51f0
+[Fri Apr 25 04:47:37 2025] [DEBUG] Inside treealoc_malloc(256)
+[Fri Apr 25 04:47:37 2025] [DEBUG] root = 0x213f50f0
+[Fri Apr 25 04:47:37 2025] [treealoc] malloc(256) = 0x213f5250
+[Fri Apr 25 04:47:38 2025] [DEBUG] Inside treealoc_malloc(75)
+[Fri Apr 25 04:47:38 2025] [DEBUG] root = 0x213f50f0
+[Fri Apr 25 04:47:38 2025] [treealoc] malloc(75) = 0x213f53e0
+[Fri Apr 25 04:47:39 2025] [DEBUG] Inside treealoc_malloc(237)
+[Fri Apr 25 04:47:39 2025] [DEBUG] root = 0x213f50f0
+[Fri Apr 25 04:47:39 2025] [treealoc] malloc(237) = 0x213f5440
+[Fri Apr 25 04:47:40 2025] [DEBUG] Inside treealoc_malloc(42)
+[Fri Apr 25 04:47:40 2025] [DEBUG] root = 0x213f50f0
+[Fri Apr 25 04:47:40 2025] [treealoc] malloc(42) = 0x213ed450
+[Fri Apr 25 04:47:41 2025] [DEBUG] Inside treealoc_malloc(206)
+[Fri Apr 25 04:47:41 2025] [DEBUG] root = 0x213f55c0
+[Fri Apr 25 04:47:41 2025] [treealoc] malloc(206) = 0x213f56c0
+[Fri Apr 25 04:47:42 2025] [DEBUG] Inside treealoc_malloc(187)
+[Fri Apr 25 04:47:42 2025] [DEBUG] root = 0x213f55c0
+[Fri Apr 25 04:47:42 2025] [treealoc] malloc(187) = 0x213f57a0
+[Fri Apr 25 04:49:16 2025] [treealoc] Initialized!
+[Fri Apr 25 04:49:33 2025] [DEBUG] Inside treealoc_malloc(104)
+[Fri Apr 25 04:49:33 2025] [DEBUG] root = (nil)
+[Fri Apr 25 04:49:33 2025] [treealoc] malloc(104) = 0xfcf3460
+[Fri Apr 25 04:49:34 2025] [DEBUG] Inside treealoc_malloc(199)
+[Fri Apr 25 04:49:34 2025] [DEBUG] root = 0xfcf34d0
+[Fri Apr 25 04:49:34 2025] [treealoc] malloc(199) = 0xfcf51e0
+[Fri Apr 25 04:49:35 2025] [DEBUG] Inside treealoc_malloc(106)
+[Fri Apr 25 04:49:35 2025] [DEBUG] root = 0xfcf34d0
+[Fri Apr 25 04:49:35 2025] [treealoc] malloc(106) = 0xfcf52b0
+[Fri Apr 25 04:49:36 2025] [DEBUG] Inside treealoc_malloc(116)
+[Fri Apr 25 04:49:36 2025] [DEBUG] root = 0xfcf34d0
+[Fri Apr 25 04:49:36 2025] [treealoc] malloc(116) = 0xfcf5330
+[Fri Apr 25 04:49:37 2025] [DEBUG] Inside treealoc_malloc(82)
+[Fri Apr 25 04:49:37 2025] [DEBUG] root = 0xfcf53b0
+[Fri Apr 25 04:49:37 2025] [treealoc] malloc(82) = 0xfcf54b0
+[Fri Apr 25 04:49:38 2025] [DEBUG] Inside treealoc_malloc(256)
+[Fri Apr 25 04:49:38 2025] [DEBUG] root = 0xfcf53b0
+[Fri Apr 25 04:49:38 2025] [treealoc] malloc(256) = 0xfcf5510
+[Fri Apr 25 04:49:39 2025] [DEBUG] Inside treealoc_malloc(75)
+[Fri Apr 25 04:49:39 2025] [DEBUG] root = 0xfcf53b0
+[Fri Apr 25 04:49:39 2025] [treealoc] malloc(75) = 0xfcf56a0
+[Fri Apr 25 04:49:40 2025] [DEBUG] Inside treealoc_malloc(237)
+[Fri Apr 25 04:49:40 2025] [DEBUG] root = 0xfcf53b0
+[Fri Apr 25 04:49:40 2025] [treealoc] malloc(237) = 0xfcf5700
+[Fri Apr 25 04:49:41 2025] [DEBUG] Inside treealoc_malloc(42)
+[Fri Apr 25 04:49:41 2025] [DEBUG] root = 0xfcf53b0
+[Fri Apr 25 04:49:41 2025] [treealoc] malloc(42) = 0xfcf1450
+[Fri Apr 25 04:49:42 2025] [DEBUG] Inside treealoc_malloc(206)
+[Fri Apr 25 04:49:42 2025] [DEBUG] root = 0xfcf5880
+[Fri Apr 25 04:49:42 2025] [treealoc] malloc(206) = 0xfcf5980
+[Fri Apr 25 04:49:43 2025] [DEBUG] Inside treealoc_malloc(187)
+[Fri Apr 25 04:49:43 2025] [DEBUG] root = 0xfcf5880
+[Fri Apr 25 04:49:43 2025] [treealoc] malloc(187) = 0xfcf5a60
+[Fri Apr 25 04:49:44 2025] [DEBUG] Inside treealoc_malloc(172)
+[Fri Apr 25 04:49:44 2025] [DEBUG] root = 0xfcf5880
+[Fri Apr 25 04:49:44 2025] [treealoc] malloc(172) = 0xfcf5bb0
+[Fri Apr 25 04:49:45 2025] [DEBUG] Inside treealoc_malloc(243)
+[Fri Apr 25 04:49:45 2025] [DEBUG] root = 0xfcf5880
+[Fri Apr 25 04:49:45 2025] [treealoc] malloc(243) = 0xfcf5c70
+[Fri Apr 25 04:49:46 2025] [DEBUG] Inside treealoc_malloc(252)
+[Fri Apr 25 04:49:46 2025] [DEBUG] root = 0xfcf5880
+[Fri Apr 25 04:49:46 2025] [treealoc] malloc(252) = 0xfcf5df0
+[Fri Apr 25 04:49:47 2025] [DEBUG] Inside treealoc_malloc(228)
+[Fri Apr 25 04:49:47 2025] [DEBUG] root = 0xfcf5880
+[Fri Apr 25 04:49:47 2025] [treealoc] malloc(228) = 0xfcf5f80
+[Fri Apr 25 04:49:48 2025] [treealoc] free(0xfcf3460)
+[Fri Apr 25 04:49:49 2025] [treealoc] free(0xfcf51e0)
+[Fri Apr 25 04:49:50 2025] [treealoc] free(0xfcf52b0)
+[Fri Apr 25 04:49:51 2025] [treealoc] free(0xfcf5330)
+[Fri Apr 25 04:49:52 2025] [treealoc] free(0xfcf54b0)
+[Fri Apr 25 04:49:53 2025] [treealoc] free(0xfcf5510)
+[Fri Apr 25 04:49:54 2025] [treealoc] free(0xfcf56a0)
+[Fri Apr 25 04:51:16 2025] [treealoc] Initialized!
+[Fri Apr 25 04:51:23 2025] [DEBUG] Inside treealoc_malloc(104)
+[Fri Apr 25 04:51:23 2025] [DEBUG] root = (nil)
+[Fri Apr 25 04:51:23 2025] [treealoc] malloc(104) = 0x14d7c460
+[Fri Apr 25 04:51:24 2025] [DEBUG] Inside treealoc_malloc(199)
+[Fri Apr 25 04:51:24 2025] [DEBUG] root = 0x14d7c4d0
+[Fri Apr 25 04:51:24 2025] [treealoc] malloc(199) = 0x14d7e1e0
+[Fri Apr 25 04:51:25 2025] [DEBUG] Inside treealoc_malloc(106)
+[Fri Apr 25 04:51:25 2025] [DEBUG] root = 0x14d7c4d0
+[Fri Apr 25 04:51:25 2025] [treealoc] malloc(106) = 0x14d7e2b0
+[Fri Apr 25 04:51:26 2025] [DEBUG] Inside treealoc_malloc(116)
+[Fri Apr 25 04:51:26 2025] [DEBUG] root = 0x14d7c4d0
+[Fri Apr 25 04:51:26 2025] [treealoc] malloc(116) = 0x14d7e330
+[Fri Apr 25 04:51:27 2025] [DEBUG] Inside treealoc_malloc(82)
+[Fri Apr 25 04:51:27 2025] [DEBUG] root = 0x14d7e3b0
+[Fri Apr 25 04:51:27 2025] [treealoc] malloc(82) = 0x14d7e4b0
+[Fri Apr 25 04:51:28 2025] [DEBUG] Inside treealoc_malloc(256)
+[Fri Apr 25 04:51:28 2025] [DEBUG] root = 0x14d7e3b0
+[Fri Apr 25 04:51:28 2025] [treealoc] malloc(256) = 0x14d7e510
+[Fri Apr 25 04:51:29 2025] [DEBUG] Inside treealoc_malloc(75)
+[Fri Apr 25 04:51:29 2025] [DEBUG] root = 0x14d7e3b0
+[Fri Apr 25 04:51:29 2025] [treealoc] malloc(75) = 0x14d7e6a0
+[Fri Apr 25 04:51:30 2025] [DEBUG] Inside treealoc_malloc(237)
+[Fri Apr 25 04:51:30 2025] [DEBUG] root = 0x14d7e3b0
+[Fri Apr 25 04:51:30 2025] [treealoc] malloc(237) = 0x14d7e700
+[Fri Apr 25 04:51:31 2025] [DEBUG] Inside treealoc_malloc(42)
+[Fri Apr 25 04:51:31 2025] [DEBUG] root = 0x14d7e3b0
+[Fri Apr 25 04:51:31 2025] [treealoc] malloc(42) = 0x14d7a450
+[Fri Apr 25 04:56:08 2025] [treealoc] Initialized!
+[Fri Apr 25 04:56:18 2025] [DEBUG] Inside treealoc_malloc(104)
+[Fri Apr 25 04:56:18 2025] [DEBUG] root = (nil)
+[Fri Apr 25 04:56:18 2025] [treealoc] malloc(104) = 0xc7161e0
+[Fri Apr 25 04:56:19 2025] [DEBUG] Inside treealoc_malloc(199)
+[Fri Apr 25 04:56:19 2025] [DEBUG] root = 0xc716250
+[Fri Apr 25 04:56:19 2025] [treealoc] malloc(199) = 0xc7162d0
+[Fri Apr 25 04:56:20 2025] [DEBUG] Inside treealoc_malloc(106)
+[Fri Apr 25 04:56:20 2025] [DEBUG] root = 0xc716250
+[Fri Apr 25 04:56:20 2025] [treealoc] malloc(106) = 0xc7163a0
+[Fri Apr 25 04:56:21 2025] [DEBUG] Inside treealoc_malloc(116)
+[Fri Apr 25 04:56:21 2025] [DEBUG] root = 0xc716250
+[Fri Apr 25 04:56:21 2025] [treealoc] malloc(116) = 0xc716420
+[Fri Apr 25 04:56:22 2025] [DEBUG] Inside treealoc_malloc(82)
+[Fri Apr 25 04:56:22 2025] [DEBUG] root = 0xc7164a0
+[Fri Apr 25 04:56:22 2025] [treealoc] malloc(82) = 0xc7165a0
+[Fri Apr 25 04:56:23 2025] [DEBUG] Inside treealoc_malloc(256)
+[Fri Apr 25 04:56:23 2025] [DEBUG] root = 0xc7164a0
+[Fri Apr 25 04:56:23 2025] [treealoc] malloc(256) = 0xc716600
+[Fri Apr 25 04:56:24 2025] [DEBUG] Inside treealoc_malloc(75)
+[Fri Apr 25 04:56:24 2025] [DEBUG] root = 0xc7164a0
+[Fri Apr 25 04:56:24 2025] [treealoc] malloc(75) = 0xc716790
+[Fri Apr 25 04:56:25 2025] [DEBUG] Inside treealoc_malloc(237)
+[Fri Apr 25 04:56:25 2025] [DEBUG] root = 0xc7164a0
+[Fri Apr 25 04:56:25 2025] [treealoc] malloc(237) = 0xc7167f0
+[Fri Apr 25 04:56:26 2025] [DEBUG] Inside treealoc_malloc(42)
+[Fri Apr 25 04:56:26 2025] [DEBUG] root = 0xc7164a0
+[Fri Apr 25 04:56:26 2025] [treealoc] malloc(42) = 0xc712450
+[Fri Apr 25 04:56:27 2025] [DEBUG] Inside treealoc_malloc(206)
+[Fri Apr 25 04:56:27 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:27 2025] [treealoc] malloc(206) = 0xc716a70
+[Fri Apr 25 04:56:28 2025] [DEBUG] Inside treealoc_malloc(187)
+[Fri Apr 25 04:56:28 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:28 2025] [treealoc] malloc(187) = 0xc716b50
+[Fri Apr 25 04:56:29 2025] [DEBUG] Inside treealoc_malloc(172)
+[Fri Apr 25 04:56:29 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:29 2025] [treealoc] malloc(172) = 0xc716ca0
+[Fri Apr 25 04:56:30 2025] [DEBUG] Inside treealoc_malloc(243)
+[Fri Apr 25 04:56:30 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:30 2025] [treealoc] malloc(243) = 0xc716d60
+[Fri Apr 25 04:56:31 2025] [DEBUG] Inside treealoc_malloc(252)
+[Fri Apr 25 04:56:31 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:31 2025] [treealoc] malloc(252) = 0xc716ee0
+[Fri Apr 25 04:56:32 2025] [DEBUG] Inside treealoc_malloc(228)
+[Fri Apr 25 04:56:32 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:32 2025] [treealoc] malloc(228) = 0xc717070
+[Fri Apr 25 04:56:33 2025] [treealoc] free(0xc7161e0)
+[Fri Apr 25 04:56:34 2025] [treealoc] free(0xc7162d0)
+[Fri Apr 25 04:56:35 2025] [treealoc] free(0xc7163a0)
+[Fri Apr 25 04:56:36 2025] [treealoc] free(0xc716420)
+[Fri Apr 25 04:56:37 2025] [treealoc] free(0xc7165a0)
+[Fri Apr 25 04:56:38 2025] [treealoc] free(0xc716600)
+[Fri Apr 25 04:56:39 2025] [treealoc] free(0xc716790)
+[Fri Apr 25 04:56:40 2025] [treealoc] free(0xc7167f0)
+[Fri Apr 25 04:56:41 2025] [treealoc] free(0xc712450)
+[Fri Apr 25 04:56:42 2025] [treealoc] free(0xc716a70)
+[Fri Apr 25 04:56:43 2025] [treealoc] free(0xc716b50)
+[Fri Apr 25 04:56:44 2025] [treealoc] free(0xc716ca0)
+[Fri Apr 25 04:56:45 2025] [treealoc] free(0xc716d60)
+[Fri Apr 25 04:56:46 2025] [treealoc] free(0xc716ee0)
+[Fri Apr 25 04:56:47 2025] [treealoc] free(0xc717070)
+[Fri Apr 25 04:56:51 2025] [DEBUG] Inside treealoc_malloc(32)
+[Fri Apr 25 04:56:51 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:51 2025] [treealoc] Reused free block 0xc712450 (size 32)
+[Fri Apr 25 04:56:52 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 04:56:52 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:52 2025] [treealoc] Reused free block 0xc716790 (size 64)
+[Fri Apr 25 04:56:53 2025] [treealoc] free(0xc712450)
+[Fri Apr 25 04:56:54 2025] [treealoc] free(0xc716790)
+[Fri Apr 25 04:56:55 2025] [DEBUG] Inside treealoc_malloc(32)
+[Fri Apr 25 04:56:55 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:55 2025] [treealoc] Reused free block 0xc712450 (size 32)
+[Fri Apr 25 04:56:56 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 04:56:56 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:56 2025] [treealoc] Reused free block 0xc716790 (size 64)
+[Fri Apr 25 04:56:57 2025] [treealoc] free(0xc712450)
+[Fri Apr 25 04:56:58 2025] [treealoc] free(0xc716790)
+[Fri Apr 25 04:56:59 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 04:56:59 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:56:59 2025] [treealoc] Reused free block 0xc716790 (size 64)
+[Fri Apr 25 04:57:00 2025] [treealoc] realloc(0xc716790, 128) = 
+[Fri Apr 25 04:57:00 2025] 0xc7171e0
+[Fri Apr 25 04:57:01 2025] [treealoc] Shrunk block 0xc7171e0 to 16
+[Fri Apr 25 04:57:02 2025] [treealoc] free(0xc7171e0)
+[Fri Apr 25 04:57:03 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 04:57:03 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:57:03 2025] [treealoc] Reused free block 0xc716790 (size 64)
+[Fri Apr 25 04:57:04 2025] [treealoc] realloc(0xc716790, 128) = 
+[Fri Apr 25 04:57:04 2025] 0xc717270
+[Fri Apr 25 04:57:05 2025] [treealoc] Shrunk block 0xc717270 to 16
+[Fri Apr 25 04:57:06 2025] [treealoc] free(0xc717270)
+[Fri Apr 25 04:57:07 2025] [DEBUG] Inside treealoc_malloc(80)
+[Fri Apr 25 04:57:07 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:57:07 2025] [treealoc] Reused free block 0xc7165a0 (size 80)
+[Fri Apr 25 04:57:07 2025] [treealoc] calloc(10, 8) = 0xc7165a0
+[Fri Apr 25 04:57:08 2025] [treealoc] free(0xc7165a0)
+[Fri Apr 25 04:57:09 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 04:57:09 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:57:09 2025] [treealoc] Reused free block 0xc716790 (size 64)
+[Fri Apr 25 04:57:10 2025] [treealoc] realloc(0xc716790, 128) = 
+[Fri Apr 25 04:57:10 2025] 0xc717380
+[Fri Apr 25 04:57:11 2025] [treealoc] Shrunk block 0xc717380 to 16
+[Fri Apr 25 04:57:12 2025] [treealoc] free(0xc717380)
+[Fri Apr 25 04:57:13 2025] [DEBUG] Inside treealoc_malloc(80)
+[Fri Apr 25 04:57:13 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:57:13 2025] [treealoc] Reused free block 0xc7165a0 (size 80)
+[Fri Apr 25 04:57:13 2025] [treealoc] calloc(10, 8) = 0xc7165a0
+[Fri Apr 25 04:57:14 2025] [treealoc] free(0xc7165a0)
+[Fri Apr 25 04:57:15 2025] [DEBUG] Inside treealoc_malloc(32)
+[Fri Apr 25 04:57:15 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:57:15 2025] [treealoc] Reused free block 0xc712450 (size 32)
+[Fri Apr 25 04:57:16 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 04:57:16 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:57:16 2025] [treealoc] Reused free block 0xc716790 (size 64)
+[Fri Apr 25 04:57:17 2025] [treealoc] free(0xc712450)
+[Fri Apr 25 04:57:18 2025] [treealoc] free(0xc716790)
+[Fri Apr 25 04:57:19 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 04:57:19 2025] [DEBUG] root = 0xc716970
+[Fri Apr 25 04:57:19 2025] [treealoc] Reused free block 0xc716790 (size 64)
+[Fri Apr 25 04:57:20 2025] [treealoc] realloc(0xc716790, 128) = 
+[Fri Apr 25 04:57:20 2025] 0xc717490
+[Fri Apr 25 04:57:21 2025] [treealoc] Shrunk block 0xc717490 to 16
+[Fri Apr 25 04:57:22 2025] [treealoc] free(0xc717490)
+[Fri Apr 25 04:57:23 2025] [DEBUG] Inside treealoc_malloc(80)
+[Fri Apr 25 04:57:23 2025] [DEBUG] root = 0xc717520
+[Fri Apr 25 04:57:23 2025] [treealoc] Reused free block 0xc7165a0 (size 80)
+[Fri Apr 25 04:57:23 2025] [treealoc] calloc(10, 8) = 0xc7165a0
+[Fri Apr 25 04:57:24 2025] [treealoc] free(0xc7165a0)
+[Fri Apr 25 04:57:31 2025] [treealoc] Cleanup
+[Fri Apr 25 04:57:38 2025] [treealoc] Initialized!
+[Fri Apr 25 04:57:50 2025] [treealoc] Cleanup
+[Fri Apr 25 04:58:41 2025] [treealoc] Initialized!
+[Fri Apr 25 04:59:53 2025] [treealoc] Cleanup
+[Fri Apr 25 05:01:43 2025] [treealoc] Initialized!
+[Fri Apr 25 05:08:46 2025] [treealoc] Initialized!
+[Fri Apr 25 05:08:53 2025] [treealoc] Cleanup
+[Fri Apr 25 05:09:31 2025] [treealoc] Initialized!
+[Fri Apr 25 05:09:40 2025] [DEBUG] Inside treealoc_malloc(32)
+[Fri Apr 25 05:09:40 2025] [DEBUG] root = (nil)
+[Fri Apr 25 05:09:40 2025] [treealoc] malloc(32) = 0xdbc6310
+[Fri Apr 25 05:09:41 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 05:09:41 2025] [DEBUG] root = 0xdbcc570
+[Fri Apr 25 05:09:41 2025] [treealoc] malloc(64) = 0xdbcc5f0
+[Fri Apr 25 05:09:42 2025] [treealoc] free(0xdbc6310)
+[Fri Apr 25 05:09:43 2025] [treealoc] free(0xdbcc5f0)
+[Fri Apr 25 05:12:50 2025] [DEBUG] Inside treealoc_malloc(64)
+[Fri Apr 25 05:12:50 2025] [DEBUG] root = 0xdbcc570
+[Fri Apr 25 05:12:50 2025] [treealoc] Reused free block 0xdbcc5f0 (size 64)
+[Fri Apr 25 05:12:51 2025] [treealoc] realloc(0xdbcc5f0, 128) = 
+[Fri Apr 25 05:12:51 2025] 0xdbcc640
+[Fri Apr 25 05:12:52 2025] [treealoc] Shrunk block 0xdbcc640 to 16
+[Fri Apr 25 05:12:53 2025] [treealoc] free(0xdbcc640)
+[Fri Apr 25 05:15:23 2025] [DEBUG] Inside treealoc_malloc(80)
+[Fri Apr 25 05:15:23 2025] [DEBUG] root = 0xdbcc570
+[Fri Apr 25 05:15:23 2025] [treealoc] malloc(80) = 0xdbcc6d0
+[Fri Apr 25 05:15:23 2025] [treealoc] calloc(10, 8) = 0xdbcc6d0
+[Fri Apr 25 05:15:24 2025] [treealoc] free(0xdbcc6d0)
+[Fri Apr 25 05:22:20 2025] [DEBUG] Inside treealoc_malloc(104)
+[Fri Apr 25 05:22:20 2025] [DEBUG] root = 0xdbcc730
+[Fri Apr 25 05:22:20 2025] [treealoc] malloc(104) = 0xdbcc830
+[Fri Apr 25 05:22:21 2025] [DEBUG] Inside treealoc_malloc(199)
+[Fri Apr 25 05:22:21 2025] [DEBUG] root = 0xdbcc730
+[Fri Apr 25 05:22:21 2025] [treealoc] malloc(199) = 0xdbcc8a0
+[Fri Apr 25 05:22:22 2025] [DEBUG] Inside treealoc_malloc(106)
+[Fri Apr 25 05:22:22 2025] [DEBUG] root = 0xdbcc730
+[Fri Apr 25 05:22:22 2025] [treealoc] malloc(106) = 0xdbce260
+[Fri Apr 25 05:22:23 2025] [DEBUG] Inside treealoc_malloc(116)
+[Fri Apr 25 05:22:23 2025] [DEBUG] root = 0xdbcc730
+[Fri Apr 25 05:22:23 2025] [treealoc] malloc(116) = 0xdbce2e0
+[Fri Apr 25 05:22:24 2025] [DEBUG] Inside treealoc_malloc(82)
+[Fri Apr 25 05:22:24 2025] [DEBUG] root = 0xdbcc730
+[Fri Apr 25 05:22:24 2025] [treealoc] malloc(82) = 0xdbce3e0
+[Fri Apr 25 05:22:25 2025] [DEBUG] Inside treealoc_malloc(256)
+[Fri Apr 25 05:22:25 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:25 2025] [treealoc] malloc(256) = 0xdbce540
+[Fri Apr 25 05:22:26 2025] [DEBUG] Inside treealoc_malloc(75)
+[Fri Apr 25 05:22:26 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:26 2025] [treealoc] Reused free block 0xdbcc6d0 (size 75)
+[Fri Apr 25 05:22:27 2025] [DEBUG] Inside treealoc_malloc(237)
+[Fri Apr 25 05:22:27 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:27 2025] [treealoc] malloc(237) = 0xdbce6d0
+[Fri Apr 25 05:22:28 2025] [DEBUG] Inside treealoc_malloc(42)
+[Fri Apr 25 05:22:28 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:28 2025] [treealoc] Reused free block 0xdbcc5f0 (size 42)
+[Fri Apr 25 05:22:29 2025] [DEBUG] Inside treealoc_malloc(206)
+[Fri Apr 25 05:22:29 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:29 2025] [treealoc] malloc(206) = 0xdbce7d0
+[Fri Apr 25 05:22:30 2025] [DEBUG] Inside treealoc_malloc(187)
+[Fri Apr 25 05:22:30 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:30 2025] [treealoc] malloc(187) = 0xdbce930
+[Fri Apr 25 05:22:31 2025] [DEBUG] Inside treealoc_malloc(172)
+[Fri Apr 25 05:22:31 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:31 2025] [treealoc] malloc(172) = 0xdbcea80
+[Fri Apr 25 05:22:32 2025] [DEBUG] Inside treealoc_malloc(243)
+[Fri Apr 25 05:22:32 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:32 2025] [treealoc] malloc(243) = 0xdbcebc0
+[Fri Apr 25 05:22:33 2025] [DEBUG] Inside treealoc_malloc(252)
+[Fri Apr 25 05:22:33 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:33 2025] [treealoc] malloc(252) = 0xdbcecc0
+[Fri Apr 25 05:22:34 2025] [DEBUG] Inside treealoc_malloc(228)
+[Fri Apr 25 05:22:34 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:22:34 2025] [treealoc] malloc(228) = 0xdbcee50
+[Fri Apr 25 05:22:35 2025] [treealoc] free(0xdbcc830)
+[Fri Apr 25 05:22:36 2025] [treealoc] free(0xdbcc8a0)
+[Fri Apr 25 05:22:37 2025] [treealoc] free(0xdbce260)
+[Fri Apr 25 05:22:38 2025] [treealoc] free(0xdbce2e0)
+[Fri Apr 25 05:22:39 2025] [treealoc] free(0xdbce3e0)
+[Fri Apr 25 05:22:40 2025] [treealoc] free(0xdbce540)
+[Fri Apr 25 05:22:41 2025] [treealoc] free(0xdbcc6d0)
+[Fri Apr 25 05:22:42 2025] [treealoc] free(0xdbce6d0)
+[Fri Apr 25 05:22:43 2025] [treealoc] free(0xdbcc5f0)
+[Fri Apr 25 05:22:44 2025] [treealoc] free(0xdbce7d0)
+[Fri Apr 25 05:22:45 2025] [treealoc] free(0xdbce930)
+[Fri Apr 25 05:22:46 2025] [treealoc] free(0xdbcea80)
+[Fri Apr 25 05:22:47 2025] [treealoc] free(0xdbcebc0)
+[Fri Apr 25 05:22:48 2025] [treealoc] free(0xdbcecc0)
+[Fri Apr 25 05:22:49 2025] [treealoc] free(0xdbcee50)
+[Fri Apr 25 05:24:19 2025] [DEBUG] Inside treealoc_malloc(327)
+[Fri Apr 25 05:24:19 2025] [DEBUG] root = 0xdbce440
+[Fri Apr 25 05:24:19 2025] [treealoc] malloc(327) = 0xdbcefc0
+[Fri Apr 25 05:24:20 2025] [DEBUG] Inside treealoc_malloc(125)
+[Fri Apr 25 05:24:20 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:20 2025] [treealoc] Reused free block 0xdbcea80 (size 125)
+[Fri Apr 25 05:24:21 2025] [DEBUG] Inside treealoc_malloc(195)
+[Fri Apr 25 05:24:21 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:21 2025] [treealoc] Reused free block 0xdbcc8a0 (size 195)
+[Fri Apr 25 05:24:22 2025] [DEBUG] Inside treealoc_malloc(85)
+[Fri Apr 25 05:24:22 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:22 2025] [treealoc] Reused free block 0xdbcc830 (size 85)
+[Fri Apr 25 05:24:23 2025] [DEBUG] Inside treealoc_malloc(505)
+[Fri Apr 25 05:24:23 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:23 2025] [treealoc] malloc(505) = 0xdbcf290
+[Fri Apr 25 05:24:24 2025] [DEBUG] Inside treealoc_malloc(284)
+[Fri Apr 25 05:24:24 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:24 2025] [treealoc] malloc(284) = 0xdbcf4a0
+[Fri Apr 25 05:24:25 2025] [DEBUG] Inside treealoc_malloc(489)
+[Fri Apr 25 05:24:25 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:25 2025] [treealoc] malloc(489) = 0xdbcf650
+[Fri Apr 25 05:24:26 2025] [DEBUG] Inside treealoc_malloc(488)
+[Fri Apr 25 05:24:26 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:26 2025] [treealoc] malloc(488) = 0xdbd3960
+[Fri Apr 25 05:24:27 2025] [DEBUG] Inside treealoc_malloc(398)
+[Fri Apr 25 05:24:27 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:27 2025] [treealoc] malloc(398) = 0xdbd3bd0
+[Fri Apr 25 05:24:28 2025] [DEBUG] Inside treealoc_malloc(375)
+[Fri Apr 25 05:24:28 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:28 2025] [treealoc] malloc(375) = 0xdbd3d70
+[Fri Apr 25 05:24:29 2025] [DEBUG] Inside treealoc_malloc(347)
+[Fri Apr 25 05:24:29 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:29 2025] [treealoc] malloc(347) = 0xdbd3f70
+[Fri Apr 25 05:24:30 2025] [DEBUG] Inside treealoc_malloc(303)
+[Fri Apr 25 05:24:30 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:30 2025] [treealoc] malloc(303) = 0xdbd4160
+[Fri Apr 25 05:24:31 2025] [DEBUG] Inside treealoc_malloc(100)
+[Fri Apr 25 05:24:31 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:31 2025] [treealoc] Reused free block 0xdbce260 (size 100)
+[Fri Apr 25 05:24:32 2025] [DEBUG] Inside treealoc_malloc(52)
+[Fri Apr 25 05:24:32 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:32 2025] [treealoc] Reused free block 0xdbcc5f0 (size 52)
+[Fri Apr 25 05:24:33 2025] [DEBUG] Inside treealoc_malloc(416)
+[Fri Apr 25 05:24:33 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:33 2025] [treealoc] malloc(416) = 0xdbd43a0
+[Fri Apr 25 05:24:34 2025] [DEBUG] Inside treealoc_malloc(202)
+[Fri Apr 25 05:24:34 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:34 2025] [treealoc] Reused free block 0xdbce7d0 (size 202)
+[Fri Apr 25 05:24:35 2025] [DEBUG] Inside treealoc_malloc(411)
+[Fri Apr 25 05:24:35 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:35 2025] [treealoc] malloc(411) = 0xdbd4550
+[Fri Apr 25 05:24:36 2025] [DEBUG] Inside treealoc_malloc(359)
+[Fri Apr 25 05:24:36 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:36 2025] [treealoc] malloc(359) = 0xdbd4780
+[Fri Apr 25 05:24:37 2025] [DEBUG] Inside treealoc_malloc(307)
+[Fri Apr 25 05:24:37 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:37 2025] [treealoc] malloc(307) = 0xdbd4970
+[Fri Apr 25 05:24:38 2025] [DEBUG] Inside treealoc_malloc(14)
+[Fri Apr 25 05:24:38 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:38 2025] [treealoc] Reused free block 0xdbcc640 (size 14)
+[Fri Apr 25 05:24:39 2025] [DEBUG] Inside treealoc_malloc(440)
+[Fri Apr 25 05:24:39 2025] [DEBUG] root = 0xdbcf110
+[Fri Apr 25 05:24:39 2025] [treealoc] malloc(440) = 0xdbd4b30
+[Fri Apr 25 05:24:44 2025] [treealoc] Initialized!
+[Fri Apr 25 05:24:49 2025] [DEBUG] Inside treealoc_malloc(360)
+[Fri Apr 25 05:24:49 2025] [DEBUG] root = (nil)
+[Fri Apr 25 05:24:49 2025] [treealoc] malloc(360) = 0x41e7670
+[Fri Apr 25 05:24:50 2025] [DEBUG] Inside treealoc_malloc(455)
+[Fri Apr 25 05:24:50 2025] [DEBUG] root = 0x41e77e0
+[Fri Apr 25 05:24:50 2025] [treealoc] malloc(455) = 0x41e91e0
+[Fri Apr 25 05:24:51 2025] [DEBUG] Inside treealoc_malloc(106)
+[Fri Apr 25 05:24:51 2025] [DEBUG] root = 0x41e77e0
+[Fri Apr 25 05:24:51 2025] [treealoc] malloc(106) = 0x41e93b0
+[Fri Apr 25 05:24:52 2025] [DEBUG] Inside treealoc_malloc(116)
+[Fri Apr 25 05:24:52 2025] [DEBUG] root = 0x41e77e0
+[Fri Apr 25 05:24:52 2025] [treealoc] malloc(116) = 0x41e9430
+[Fri Apr 25 05:24:53 2025] [DEBUG] Inside treealoc_malloc(82)
+[Fri Apr 25 05:24:53 2025] [DEBUG] root = 0x41e94b0
+[Fri Apr 25 05:24:53 2025] [treealoc] malloc(82) = 0x41e95b0
+[Fri Apr 25 05:24:54 2025] [DEBUG] Inside treealoc_malloc(256)
+[Fri Apr 25 05:24:54 2025] [DEBUG] root = 0x41e94b0
+[Fri Apr 25 05:24:54 2025] [treealoc] malloc(256) = 0x41e9610
+[Fri Apr 25 05:24:55 2025] [DEBUG] Inside treealoc_malloc(75)
+[Fri Apr 25 05:24:55 2025] [DEBUG] root = 0x41e94b0
+[Fri Apr 25 05:24:55 2025] [treealoc] malloc(75) = 0x41e97a0
+[Fri Apr 25 05:24:56 2025] [DEBUG] Inside treealoc_malloc(237)
+[Fri Apr 25 05:24:56 2025] [DEBUG] root = 0x41e94b0
+[Fri Apr 25 05:24:56 2025] [treealoc] malloc(237) = 0x41e9800
+[Fri Apr 25 05:24:57 2025] [DEBUG] Inside treealoc_malloc(298)
+[Fri Apr 25 05:24:57 2025] [DEBUG] root = 0x41e94b0
+[Fri Apr 25 05:24:57 2025] [treealoc] malloc(298) = 0x41e9980
+[Fri Apr 25 05:24:58 2025] [DEBUG] Inside treealoc_malloc(206)
+[Fri Apr 25 05:24:58 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:24:58 2025] [treealoc] malloc(206) = 0x41e9bc0
+[Fri Apr 25 05:24:59 2025] [DEBUG] Inside treealoc_malloc(187)
+[Fri Apr 25 05:24:59 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:24:59 2025] [treealoc] malloc(187) = 0x41e9d20
+[Fri Apr 25 05:25:00 2025] [DEBUG] Inside treealoc_malloc(428)
+[Fri Apr 25 05:25:00 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:25:00 2025] [treealoc] malloc(428) = 0x41e9df0
+[Fri Apr 25 05:25:01 2025] [DEBUG] Inside treealoc_malloc(499)
+[Fri Apr 25 05:25:01 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:25:01 2025] [treealoc] malloc(499) = 0x41ea030
+[Fri Apr 25 05:25:02 2025] [DEBUG] Inside treealoc_malloc(252)
+[Fri Apr 25 05:25:02 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:25:02 2025] [treealoc] malloc(252) = 0x41ea2b0
+[Fri Apr 25 05:25:03 2025] [DEBUG] Inside treealoc_malloc(484)
+[Fri Apr 25 05:25:03 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:25:03 2025] [treealoc] malloc(484) = 0x41ea440
+[Fri Apr 25 05:25:04 2025] [DEBUG] Inside treealoc_malloc(327)
+[Fri Apr 25 05:25:04 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:25:04 2025] [treealoc] malloc(327) = 0x41ea630
+[Fri Apr 25 05:25:05 2025] [DEBUG] Inside treealoc_malloc(125)
+[Fri Apr 25 05:25:05 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:25:05 2025] [treealoc] malloc(125) = 0x41ea800
+[Fri Apr 25 05:25:06 2025] [DEBUG] Inside treealoc_malloc(195)
+[Fri Apr 25 05:25:06 2025] [DEBUG] root = 0x41e9ac0
+[Fri Apr 25 05:25:06 2025] [treealoc] malloc(195) = 0x41ee960
+[Fri Apr 25 05:25:07 2025] [DEBUG] Inside treealoc_malloc(85)
+[Fri Apr 25 05:25:07 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:07 2025] [treealoc] malloc(85) = 0x41ea890
+[Fri Apr 25 05:25:08 2025] [DEBUG] Inside treealoc_malloc(505)
+[Fri Apr 25 05:25:08 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:08 2025] [treealoc] malloc(505) = 0x41eeb30
+[Fri Apr 25 05:25:09 2025] [DEBUG] Inside treealoc_malloc(284)
+[Fri Apr 25 05:25:09 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:09 2025] [treealoc] malloc(284) = 0x41eedc0
+[Fri Apr 25 05:25:10 2025] [DEBUG] Inside treealoc_malloc(489)
+[Fri Apr 25 05:25:10 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:10 2025] [treealoc] malloc(489) = 0x41eef70
+[Fri Apr 25 05:25:11 2025] [DEBUG] Inside treealoc_malloc(488)
+[Fri Apr 25 05:25:11 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:11 2025] [treealoc] malloc(488) = 0x41ef1f0
+[Fri Apr 25 05:25:12 2025] [DEBUG] Inside treealoc_malloc(398)
+[Fri Apr 25 05:25:12 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:12 2025] [treealoc] malloc(398) = 0x41ef3e0
+[Fri Apr 25 05:25:13 2025] [DEBUG] Inside treealoc_malloc(375)
+[Fri Apr 25 05:25:13 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:13 2025] [treealoc] malloc(375) = 0x41ef600
+[Fri Apr 25 05:25:14 2025] [DEBUG] Inside treealoc_malloc(347)
+[Fri Apr 25 05:25:14 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:14 2025] [treealoc] malloc(347) = 0x41ef800
+[Fri Apr 25 05:25:15 2025] [DEBUG] Inside treealoc_malloc(303)
+[Fri Apr 25 05:25:15 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:15 2025] [treealoc] malloc(303) = 0x41efa70
+[Fri Apr 25 05:25:16 2025] [DEBUG] Inside treealoc_malloc(100)
+[Fri Apr 25 05:25:16 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:16 2025] [treealoc] malloc(100) = 0x41efbb0
+[Fri Apr 25 05:25:17 2025] [DEBUG] Inside treealoc_malloc(52)
+[Fri Apr 25 05:25:17 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:17 2025] [treealoc] malloc(52) = 0x41e5450
+[Fri Apr 25 05:25:18 2025] [DEBUG] Inside treealoc_malloc(416)
+[Fri Apr 25 05:25:18 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:18 2025] [treealoc] malloc(416) = 0x41efca0
+[Fri Apr 25 05:25:19 2025] [DEBUG] Inside treealoc_malloc(202)
+[Fri Apr 25 05:25:19 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:19 2025] [treealoc] malloc(202) = 0x41efed0
+[Fri Apr 25 05:25:20 2025] [DEBUG] Inside treealoc_malloc(411)
+[Fri Apr 25 05:25:20 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:20 2025] [treealoc] malloc(411) = 0x41f0030
+[Fri Apr 25 05:25:21 2025] [DEBUG] Inside treealoc_malloc(359)
+[Fri Apr 25 05:25:21 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:21 2025] [treealoc] malloc(359) = 0x41f01e0
+[Fri Apr 25 05:25:22 2025] [DEBUG] Inside treealoc_malloc(307)
+[Fri Apr 25 05:25:22 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:22 2025] [treealoc] malloc(307) = 0x41f03d0
+[Fri Apr 25 05:25:23 2025] [DEBUG] Inside treealoc_malloc(14)
+[Fri Apr 25 05:25:23 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:23 2025] [treealoc] malloc(14) = 0x41e5c30
+[Fri Apr 25 05:25:24 2025] [DEBUG] Inside treealoc_malloc(440)
+[Fri Apr 25 05:25:24 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:24 2025] [treealoc] malloc(440) = 0x41f0590
+[Fri Apr 25 05:25:25 2025] [DEBUG] Inside treealoc_malloc(50)
+[Fri Apr 25 05:25:25 2025] [DEBUG] root = 0x41e78e0
+[Fri Apr 25 05:25:25 2025] [treealoc] malloc(50) = 0x41f0850
+[Fri Apr 25 05:25:26 2025] [DEBUG] Inside treealoc_malloc(89)
+[Fri Apr 25 05:25:26 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:26 2025] [treealoc] malloc(89) = 0x41f0990
+[Fri Apr 25 05:25:27 2025] [DEBUG] Inside treealoc_malloc(164)
+[Fri Apr 25 05:25:27 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:27 2025] [treealoc] malloc(164) = 0x41f0a80
+[Fri Apr 25 05:25:28 2025] [DEBUG] Inside treealoc_malloc(347)
+[Fri Apr 25 05:25:28 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:28 2025] [treealoc] malloc(347) = 0x41f0bb0
+[Fri Apr 25 05:25:29 2025] [DEBUG] Inside treealoc_malloc(294)
+[Fri Apr 25 05:25:29 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:29 2025] [treealoc] malloc(294) = 0x41f0da0
+[Fri Apr 25 05:25:30 2025] [DEBUG] Inside treealoc_malloc(350)
+[Fri Apr 25 05:25:30 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:30 2025] [treealoc] malloc(350) = 0x41f0ed0
+[Fri Apr 25 05:25:31 2025] [DEBUG] Inside treealoc_malloc(262)
+[Fri Apr 25 05:25:31 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:31 2025] [treealoc] malloc(262) = 0x41f10c0
+[Fri Apr 25 05:25:32 2025] [DEBUG] Inside treealoc_malloc(280)
+[Fri Apr 25 05:25:32 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:32 2025] [treealoc] malloc(280) = 0x41f1250
+[Fri Apr 25 05:25:33 2025] [DEBUG] Inside treealoc_malloc(89)
+[Fri Apr 25 05:25:33 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:33 2025] [treealoc] malloc(89) = 0x41f1470
+[Fri Apr 25 05:25:34 2025] [DEBUG] Inside treealoc_malloc(234)
+[Fri Apr 25 05:25:34 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:34 2025] [treealoc] malloc(234) = 0x41f14e0
+[Fri Apr 25 05:25:35 2025] [DEBUG] Inside treealoc_malloc(95)
+[Fri Apr 25 05:25:35 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:35 2025] [treealoc] malloc(95) = 0x41f1660
+[Fri Apr 25 05:25:36 2025] [DEBUG] Inside treealoc_malloc(213)
+[Fri Apr 25 05:25:36 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:36 2025] [treealoc] malloc(213) = 0x41f1750
+[Fri Apr 25 05:25:37 2025] [DEBUG] Inside treealoc_malloc(428)
+[Fri Apr 25 05:25:37 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:37 2025] [treealoc] malloc(428) = 0x41f18b0
+[Fri Apr 25 05:25:38 2025] [DEBUG] Inside treealoc_malloc(179)
+[Fri Apr 25 05:25:38 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:38 2025] [treealoc] malloc(179) = 0x41f1a70
+[Fri Apr 25 05:25:39 2025] [DEBUG] Inside treealoc_malloc(206)
+[Fri Apr 25 05:25:39 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:39 2025] [treealoc] malloc(206) = 0x41f1bb0
+[Fri Apr 25 05:25:40 2025] [DEBUG] Inside treealoc_malloc(199)
+[Fri Apr 25 05:25:40 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:40 2025] [treealoc] malloc(199) = 0x41f1d10
+[Fri Apr 25 05:25:41 2025] [DEBUG] Inside treealoc_malloc(156)
+[Fri Apr 25 05:25:41 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:41 2025] [treealoc] malloc(156) = 0x41f1ee0
+[Fri Apr 25 05:25:42 2025] [DEBUG] Inside treealoc_malloc(181)
+[Fri Apr 25 05:25:42 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:42 2025] [treealoc] malloc(181) = 0x41f2010
+[Fri Apr 25 05:25:43 2025] [DEBUG] Inside treealoc_malloc(85)
+[Fri Apr 25 05:25:43 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:43 2025] [treealoc] malloc(85) = 0x41f2150
+[Fri Apr 25 05:25:44 2025] [DEBUG] Inside treealoc_malloc(18)
+[Fri Apr 25 05:25:44 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:44 2025] [treealoc] malloc(18) = 0x41e7960
+[Fri Apr 25 05:25:45 2025] [DEBUG] Inside treealoc_malloc(15)
+[Fri Apr 25 05:25:45 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:45 2025] [treealoc] malloc(15) = 0x41e1310
+[Fri Apr 25 05:25:46 2025] [DEBUG] Inside treealoc_malloc(387)
+[Fri Apr 25 05:25:46 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:46 2025] [treealoc] malloc(387) = 0x41f22b0
+[Fri Apr 25 05:25:47 2025] [DEBUG] Inside treealoc_malloc(117)
+[Fri Apr 25 05:25:47 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:47 2025] [treealoc] malloc(117) = 0x41f24c0
+[Fri Apr 25 05:25:48 2025] [DEBUG] Inside treealoc_malloc(66)
+[Fri Apr 25 05:25:48 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:48 2025] [treealoc] malloc(66) = 0x41f2540
+[Fri Apr 25 05:25:49 2025] [DEBUG] Inside treealoc_malloc(290)
+[Fri Apr 25 05:25:49 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:49 2025] [treealoc] malloc(290) = 0x41f2610
+[Fri Apr 25 05:25:50 2025] [DEBUG] Inside treealoc_malloc(318)
+[Fri Apr 25 05:25:50 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:50 2025] [treealoc] malloc(318) = 0x41f27c0
+[Fri Apr 25 05:25:51 2025] [DEBUG] Inside treealoc_malloc(477)
+[Fri Apr 25 05:25:51 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:51 2025] [treealoc] malloc(477) = 0x41f2a10
+[Fri Apr 25 05:25:52 2025] [DEBUG] Inside treealoc_malloc(136)
+[Fri Apr 25 05:25:52 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:52 2025] [treealoc] malloc(136) = 0x41f2c00
+[Fri Apr 25 05:25:53 2025] [DEBUG] Inside treealoc_malloc(113)
+[Fri Apr 25 05:25:53 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:53 2025] [treealoc] malloc(113) = 0x41f2d10
+[Fri Apr 25 05:25:54 2025] [DEBUG] Inside treealoc_malloc(490)
+[Fri Apr 25 05:25:54 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:54 2025] [treealoc] malloc(490) = 0x41f2e10
+[Fri Apr 25 05:25:55 2025] [DEBUG] Inside treealoc_malloc(63)
+[Fri Apr 25 05:25:55 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:55 2025] [treealoc] malloc(63) = 0x41f3090
+[Fri Apr 25 05:25:56 2025] [DEBUG] Inside treealoc_malloc(162)
+[Fri Apr 25 05:25:56 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:56 2025] [treealoc] malloc(162) = 0x41f30e0
+[Fri Apr 25 05:25:57 2025] [DEBUG] Inside treealoc_malloc(66)
+[Fri Apr 25 05:25:57 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:57 2025] [treealoc] malloc(66) = 0x41f3210
+[Fri Apr 25 05:25:58 2025] [DEBUG] Inside treealoc_malloc(226)
+[Fri Apr 25 05:25:58 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:58 2025] [treealoc] malloc(226) = 0x41f32e0
+[Fri Apr 25 05:25:59 2025] [DEBUG] Inside treealoc_malloc(509)
+[Fri Apr 25 05:25:59 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:25:59 2025] [treealoc] malloc(509) = 0x41f34d0
+[Fri Apr 25 05:26:00 2025] [DEBUG] Inside treealoc_malloc(360)
+[Fri Apr 25 05:26:00 2025] [DEBUG] root = 0x41f0890
+[Fri Apr 25 05:26:00 2025] [treealoc] malloc(360) = 0x41f3760
+[Fri Apr 25 05:26:01 2025] [DEBUG] Inside treealoc_malloc(63)
+[Fri Apr 25 05:26:01 2025] [DEBUG] root = 0x41f38d0
+[Fri Apr 25 05:26:01 2025] [treealoc] malloc(63) = 0x41f3a50
+[Fri Apr 25 05:26:02 2025] [DEBUG] Inside treealoc_malloc(258)
+[Fri Apr 25 05:26:02 2025] [DEBUG] root = 0x41f38d0
+[Fri Apr 25 05:26:02 2025] [treealoc] malloc(258) = 0x41f3b20
+[Fri Apr 25 05:26:03 2025] [DEBUG] Inside treealoc_malloc(127)
+[Fri Apr 25 05:26:03 2025] [DEBUG] root = 0x41f38d0
+[Fri Apr 25 05:26:03 2025] [treealoc] malloc(127) = 0x41f3cb0
+[Fri Apr 25 05:27:43 2025] [treealoc] Initialized!
+[Fri Apr 25 05:27:48 2025] [DEBUG] Inside treealoc_malloc(0)
+[Fri Apr 25 05:27:48 2025] [DEBUG] root = (nil)
+[Fri Apr 25 05:27:48 2025] [treealoc] malloc(0) = 0xfc1a310
+[Fri Apr 25 05:27:49 2025] [treealoc] free(0xfc1a310)
+[Fri Apr 25 05:27:50 2025] [DEBUG] Inside treealoc_malloc(100)
+[Fri Apr 25 05:27:50 2025] [DEBUG] root = 0xfc20670
+[Fri Apr 25 05:27:50 2025] [treealoc] malloc(100) = 0xfc206f0
+[Fri Apr 25 05:27:51 2025] [treealoc] free(0xfc206f0)
+[Fri Apr 25 05:32:03 2025] [treealoc] Cleanup
+[Fri Apr 25 05:32:06 2025] [treealoc] Initialized!
+[Fri Apr 25 05:32:09 2025] [treealoc] Cleanup
+[Fri Apr 25 05:42:51 2025] [treealoc] Initialized!

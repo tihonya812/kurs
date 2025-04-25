@@ -1,12 +1,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
+#include <string.h>
+#include <time.h>
 #include "b_tree.h"
 #include "visual.h"
 
-int WINDOW_WIDTH = 1500;
-int WINDOW_HEIGHT = 1200;
-#define NODE_WIDTH 100 // Увеличиваем ширину узлов
+int WINDOW_WIDTH = 846;
+int WINDOW_HEIGHT = 579;
+#define NODE_WIDTH 100
 #define NODE_HEIGHT 60
 #define VERTICAL_SPACING 100
 #define HORIZONTAL_SPACING 40
@@ -15,13 +17,46 @@ SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 TTF_Font* font = NULL;
 
+int visual_initialized = 0;
 static int tree_changed = 1;
 
 // Для debounce при изменении размера окна
 static Uint32 last_resize_time = 0;
-static const Uint32 RESIZE_DEBOUNCE_MS = 100; // Задержка 100 мс
+static const Uint32 RESIZE_DEBOUNCE_MS = 100;
 
-// Структура для хранения информации о ширине уровня
+// Для debounce логов о количестве узлов
+static Uint32 last_node_log_time = 0;
+static const Uint32 NODE_LOG_DEBOUNCE_MS = 1000; // Задержка 1 секунда для логов о количестве узлов
+
+// Файл для логов
+static FILE* visual_log_file = NULL;
+
+// Функция для логирования в файл
+void visual_log(const char* message) {
+    if (!visual_log_file) return;
+    time_t now = time(NULL);
+    char* timestamp = ctime(&now);
+    timestamp[strlen(timestamp) - 1] = '\0'; // Удаляем \n
+    fprintf(visual_log_file, "[%s] [visual] %s\n", timestamp, message);
+    fflush(visual_log_file);
+}
+
+// Инициализация логирования
+void visual_init_logging() {
+    visual_log_file = fopen("visual.log", "a");
+    if (!visual_log_file) {
+        fprintf(stderr, "[visual] Failed to open visual.log\n");
+    }
+}
+
+// Очистка логирования
+void visual_cleanup_logging() {
+    if (visual_log_file) {
+        fclose(visual_log_file);
+        visual_log_file = NULL;
+    }
+}
+
 typedef struct {
     int node_count;
     int total_width;
@@ -55,7 +90,13 @@ void draw_tree(int offset_x, int offset_y, float scale) {
     int node_count = 0;
     draw_node(root, WINDOW_WIDTH / 2 + offset_x, 50 + offset_y, 0, &node_count, 0, 0, scale, levels);
     if (node_count != last_node_count) {
-        printf("[visual] Total nodes displayed: %d\n", node_count);
+        Uint32 current_time = SDL_GetTicks();
+        if (current_time - last_node_log_time >= NODE_LOG_DEBOUNCE_MS) {
+            char msg[64];
+            snprintf(msg, sizeof(msg), "Total nodes displayed: %d", node_count);
+            visual_log(msg);
+            last_node_log_time = current_time;
+        }
         last_node_count = node_count;
     }
     SDL_RenderPresent(renderer);
@@ -64,29 +105,25 @@ void draw_tree(int offset_x, int offset_y, float scale) {
 }
 
 void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
-    // Рисуем тень (смещённый прямоугольник)
     SDL_Rect shadow_rect = {x - NODE_WIDTH / 2 + 3, y + 3, NODE_WIDTH, NODE_HEIGHT};
-    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 150); // Полупрозрачная тень
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 150);
     SDL_RenderFillRect(renderer, &shadow_rect);
 
-    // Рисуем основной прямоугольник
     SDL_Rect rect = {x - NODE_WIDTH / 2, y, NODE_WIDTH, NODE_HEIGHT};
-    SDL_SetRenderDrawColor(renderer, is_free ? 0 : 180, is_free ? 180 : 0, 0, 255); // Тёмно-зелёный или тёмно-красный
+    SDL_SetRenderDrawColor(renderer, is_free ? 0 : 180, is_free ? 180 : 0, 0, 255);
     SDL_RenderFillRect(renderer, &rect);
 
-    // Рисуем обводку
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Белая обводка
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDrawRect(renderer, &rect);
 
     if (font) {
         char text[64];
-        snprintf(text, sizeof(text), "%zu\n%p", size, addr); // Убираем статус
-        SDL_Color color = {255, 255, 255, 255}; // Белый текст
+        snprintf(text, sizeof(text), "%zu\n%p", size, addr);
+        SDL_Color color = {255, 255, 255, 255};
         SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(font, text, color, NODE_WIDTH - 10);
         if (surface) {
             SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
             if (texture) {
-                // Центрируем текст
                 SDL_Rect text_rect = {
                     x - NODE_WIDTH / 2 + (NODE_WIDTH - surface->w) / 2,
                     y + (NODE_HEIGHT - surface->h) / 2,
@@ -96,11 +133,15 @@ void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
                 SDL_RenderCopy(renderer, texture, NULL, &text_rect);
                 SDL_DestroyTexture(texture);
             } else {
-                printf("[visual] Failed to create texture: %s\n", SDL_GetError());
+                char msg[128];
+                snprintf(msg, sizeof(msg), "Failed to create texture: %s", SDL_GetError());
+                visual_log(msg);
             }
             SDL_FreeSurface(surface);
         } else {
-            printf("[visual] Failed to render text: %s\n", TTF_GetError());
+            char msg[128];
+            snprintf(msg, sizeof(msg), "Failed to render text: %s", TTF_GetError());
+            visual_log(msg);
         }
     }
 }
@@ -108,7 +149,6 @@ void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
 void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale, LevelInfo* levels) {
     if (!node) return;
 
-    int level_width = levels[depth].total_width;
     int node_count_on_level = levels[depth].node_count;
     int horizontal_spacing = node_count_on_level > 1 ? (WINDOW_WIDTH - node_count_on_level * NODE_WIDTH) / (node_count_on_level - 1) : HORIZONTAL_SPACING;
     if (horizontal_spacing < 20) horizontal_spacing = 20;
@@ -136,45 +176,59 @@ void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent
 }
 
 int visual_main_loop() {
+    visual_init_logging();
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("[visual] SDL_Init failed: %s\n", SDL_GetError());
+        char msg[128];
+        snprintf(msg, sizeof(msg), "SDL_Init failed: %s", SDL_GetError());
+        visual_log(msg);
         return 1;
     }
-    printf("[visual] SDL initialized\n");
+    visual_log("SDL initialized");
 
     if (TTF_Init() < 0) {
-        printf("[visual] TTF_Init failed: %s\n", TTF_GetError());
+        char msg[128];
+        snprintf(msg, sizeof(msg), "TTF_Init failed: %s", TTF_GetError());
+        visual_log(msg);
         SDL_Quit();
         return 1;
     }
-    printf("[visual] TTF initialized\n");
+    visual_log("TTF initialized");
 
     window = SDL_CreateWindow("Treealoc Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                               WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
     if (!window) {
-        printf("[visual] SDL_CreateWindow failed: %s\n", SDL_GetError());
+        char msg[128];
+        snprintf(msg, sizeof(msg), "SDL_CreateWindow failed: %s", SDL_GetError());
+        visual_log(msg);
         TTF_Quit();
         SDL_Quit();
         return 1;
     }
-    printf("[visual] Window created\n");
+    visual_log("Window created");
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
-        printf("[visual] SDL_CreateRenderer failed: %s\n", SDL_GetError());
+        char msg[128];
+        snprintf(msg, sizeof(msg), "SDL_CreateRenderer failed: %s", SDL_GetError());
+        visual_log(msg);
         SDL_DestroyWindow(window);
         TTF_Quit();
         SDL_Quit();
         return 1;
     }
-    printf("[visual] Renderer created\n");
+    visual_log("Renderer created");
 
-    font = TTF_OpenFont("/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf", 14); // Возвращаем шрифт 14
+    font = TTF_OpenFont("/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf", 14);
     if (!font) {
-        printf("[visual] TTF_OpenFont failed: %s\n", TTF_GetError());
+        char msg[128];
+        snprintf(msg, sizeof(msg), "TTF_OpenFont failed: %s", TTF_GetError());
+        visual_log(msg);
     } else {
-        printf("[visual] Font loaded\n");
+        visual_log("Font loaded");
     }
+
+    visual_initialized = 1;
 
     int running = 1;
     SDL_Event e;
@@ -187,18 +241,21 @@ int visual_main_loop() {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) running = 0;
             if (e.type == SDL_KEYDOWN) {
+                char msg[64];
                 switch (e.key.keysym.sym) {
                     case SDLK_PLUS:
                     case SDLK_EQUALS:
                         scale += 0.1f;
                         if (scale > 3.0f) scale = 3.0f;
-                        printf("[visual] Scale increased to %.1fx\n", scale);
+                        snprintf(msg, sizeof(msg), "Scale increased to %.1fx", scale);
+                        visual_log(msg);
                         tree_changed = 1;
                         break;
                     case SDLK_MINUS:
                         scale -= 0.1f;
                         if (scale < 0.3f) scale = 0.3f;
-                        printf("[visual] Scale decreased to %.1fx\n", scale);
+                        snprintf(msg, sizeof(msg), "Scale decreased to %.1fx", scale);
+                        visual_log(msg);
                         tree_changed = 1;
                         break;
                     case SDLK_w:
@@ -221,10 +278,10 @@ int visual_main_loop() {
                         fullscreen = !fullscreen;
                         if (fullscreen) {
                             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-                            printf("[visual] Fullscreen enabled\n");
+                            visual_log("Fullscreen enabled");
                         } else {
                             SDL_SetWindowFullscreen(window, 0);
-                            printf("[visual] Fullscreen disabled\n");
+                            visual_log("Fullscreen disabled");
                         }
                         tree_changed = 1;
                         break;
@@ -235,7 +292,9 @@ int visual_main_loop() {
                 if (current_time - last_resize_time >= RESIZE_DEBOUNCE_MS) {
                     WINDOW_WIDTH = e.window.data1;
                     WINDOW_HEIGHT = e.window.data2;
-                    printf("[visual] Window resized to %dx%d\n", WINDOW_WIDTH, WINDOW_HEIGHT);
+                    char msg[64];
+                    snprintf(msg, sizeof(msg), "Window resized to %dx%d", WINDOW_WIDTH, WINDOW_HEIGHT);
+                    visual_log(msg);
                     tree_changed = 1;
                     last_resize_time = current_time;
                 }
@@ -253,6 +312,7 @@ int visual_main_loop() {
     SDL_DestroyWindow(window);
     TTF_Quit();
     SDL_Quit();
-    printf("[visual] Visualizer closed\n");
+    visual_log("Visualizer closed");
+    visual_cleanup_logging();
     return 0;
 }
