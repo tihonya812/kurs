@@ -159,9 +159,6 @@ void btree_debug() {
     print_node(root, 0);
 }
 
-// Helper to find a key in a node or determine subtree for search
-// Returns index of key if found, or index of child subtree to search
-// Sets found_in_node to 1 if key is in current node, 0 otherwise
 static int find_key_or_subtree(BNode* node, void* ptr, int* found_in_node) {
     int i = 0;
     *found_in_node = 0;
@@ -170,8 +167,6 @@ static int find_key_or_subtree(BNode* node, void* ptr, int* found_in_node) {
             *found_in_node = 1;
             return i;
         }
-        // Если ключи строго упорядочены и текущий ключ больше искомого, то искомого в узле нет,
-        // и нужно спускаться в ребенка слева от этого ключа (т.е. children[i])
         if (node->blocks[i] > ptr) { // Предполагаем, что указатели можно так сравнивать для порядка
             break; // ptr должен быть в children[i]
         }
@@ -203,8 +198,6 @@ BNode* find_node(BNode* current_node, void* ptr, int* index_in_node) {
         return NULL; // Key not found
     }
 
-    // Recurse to the appropriate child
-    // printf("[btree] Block %p not in node %p, descending to child %d\n", ptr, current_node, i);
     return find_node(current_node->children[i], ptr, index_in_node);
 }
 
@@ -329,20 +322,13 @@ static void merge_nodes(BNode* parent_node, int idx_of_key_in_parent) {
     for (int i = idx_of_key_in_parent + 1; i < parent_node->n; i++) { // Начиная с указателя ПОСЛЕ удаленного sibling
         parent_node->children[i] = parent_node->children[i+1];
     }
-
-    // --- ИСПРАВЛЕНИЕ ЗДЕСЬ ---
-    // Обнуляем последний "лишний" указатель на ребенка, который был сдвинут.
-    // parent_node->n на этом этапе еще содержит старое количество ключей,
-    // поэтому parent_node->children[parent_node->n] указывает на последний дочерний указатель,
-    // который теперь должен быть NULL.
     parent_node->children[parent_node->n] = NULL;
     parent_node->n--;
-    // --- КОНЕЦ ИСПРАВЛЕНИЯ ---
 
 
     printf("[btree] Merged child %p (was children[%d]) and sibling %p. Freed sibling %p.\n",
            child, idx_of_key_in_parent, sibling, sibling);
-    free(sibling); // Освобождаем структуру узла sibling
+    free(sibling); 
     tree_modified = 1;
 }
 
@@ -352,9 +338,6 @@ static void fix_underflow(BNode* parent_node, int child_idx_in_parent) {
     if (!parent_node) return; // Не должно происходить при правильном вызове
     BNode* child = parent_node->children[child_idx_in_parent];
 
-    // ИСПРАВЛЕНИЕ: Сообщение в логе указывает, что n=T-1 считается недозаполнением,
-    // которое необходимо исправить до >= T.
-    // Следовательно, условие для возврата должно быть, если n уже >= T.
     if (!child || child->n >= T) {
         // Если узел имеет T или более ключей, он не недозаполнен согласно цели.
         return;
@@ -378,10 +361,6 @@ static void fix_underflow(BNode* parent_node, int child_idx_in_parent) {
         } else if (child_idx_in_parent > 0) { // Слияние с левым братом
             merge_nodes(parent_node, child_idx_in_parent-1);
         }
-        // Если количество ключей в parent_node становится 0, и это не корень,
-        // его также нужно исправить.
-        // Если parent_node является корнем, и количество ключей становится 0,
-        // а child - единственный, то child становится новым корнем.
         if (parent_node == root && parent_node->n == 0) {
             // После merge_nodes, child - это объединенный узел, который должен быть единственным дочерним.
             root = parent_node->children[0];
@@ -392,8 +371,6 @@ static void fix_underflow(BNode* parent_node, int child_idx_in_parent) {
     }
 }
 
-// Вспомогательная функция для удаления записи из листового узла.
-// Освобождает блок, только если 'actually_free_payload' истинно.
 static void remove_entry_from_leaf(BNode* leaf_node, int index_in_leaf, int actually_free_payload) {
     if (!leaf_node || !leaf_node->leaf || index_in_leaf < 0 || index_in_leaf >= leaf_node->n) {
         printf("[btree] Invalid args to remove_entry_from_leaf: node %p, index %d, n %d\n", leaf_node, index_in_leaf, leaf_node ? leaf_node->n : -1);
@@ -443,9 +420,6 @@ static void get_successor(BNode* parent_node, int child_idx_for_key, BNode** suc
     *succ_idx_out = 0; // Leftmost key in leaf
 }
 
-// Рекурсивный помощник для btree_remove
-// Удаляет ptr_to_delete из поддерева с корнем current_node
-// Флаг 'actually_free_payload' указывает, нужно ли освобождать блок данных ptr_to_delete
 static void btree_remove_recursive(BNode* current_node, void* ptr_to_delete, int actually_free_payload) {
     if (!current_node) return;
 
@@ -483,8 +457,6 @@ static void btree_remove_recursive(BNode* current_node, void* ptr_to_delete, int
                 current_node->blocks[idx] = pred_node->blocks[pred_idx]; // Блок предшественника перемещается вверх
                 current_node->is_free[idx] = pred_node->is_free[pred_idx];
                 
-                // Рекурсивно удаляем запись о предшественнике из его исходного местоположения.
-                // Сам блок НЕ должен освобождаться этим рекурсивным вызовом, так как он перемещен.
                 btree_remove_recursive(left_child, current_node->blocks[idx], 0 /* НЕ освобождать этот payload */);
 
             } else if (right_child && right_child->n >= T) { // Случай 2: Преемник из правого ребенка
@@ -509,18 +481,10 @@ static void btree_remove_recursive(BNode* current_node, void* ptr_to_delete, int
 
             } else { // Случай 3: Слияние левого ребенка, ключа из current_node и правого ребенка
                 void* key_to_delete_in_merged_child = current_node->blocks[idx]; // Это ptr_to_delete
-                
-                // Этот ключ перемещается в объединенный дочерний узел.
-                // Статус 'actually_free_payload' для этого ключа передается рекурсивному вызову
-                // для объединенного дочернего узла. Блок здесь не освобождается.
+
                 printf("[btree_rec] Merging children of node %p around key %p (idx %d)\n", current_node, key_to_delete_in_merged_child, idx);
                                 
                 merge_nodes(current_node, idx); 
-                // current_node->children[idx] теперь является объединенным узлом (если merge_nodes так делает)
-                // или child_that_will_be_merged_into был обновлен.
-                // Важно, чтобы child_that_will_be_merged_into оставался валидным указателем на объединенный узел.
-                // Если merge_nodes освобождает child_that_will_be_merged_into и возвращает новый узел, логика сложнее.
-                // Предполагаем, что current_node->children[idx] теперь указывает на объединенный узел.
                 
                 btree_remove_recursive(current_node->children[idx], key_to_delete_in_merged_child, actually_free_payload);
             }
@@ -545,19 +509,12 @@ static void btree_remove_recursive(BNode* current_node, void* ptr_to_delete, int
             if (child_to_descend->n < T) { // T-1 ключ == child->n == T-1. Если < T, значит, child->n == T-1
                 printf("[btree_rec] Child %p (idx %d in parent %p) has n=%d (T-1 keys), calling fix_underflow to ensure it has >= T keys or is merged.\n", child_to_descend, idx, current_node, child_to_descend->n);
                 fix_underflow(current_node, idx); // fix_underflow вызывается для родителя current_node, чтобы исправить его ребенка children[idx]
-                // После fix_underflow, current_node (родитель) мог измениться (например, если он корень и стал пустым)
-                // или его ключи/дети могли быть перестроены.
-                // Ключ ptr_to_delete мог даже оказаться в current_node после слияния.
-                // Поэтому, безопаснее всего, это ПЕРЕВЫЗВАТЬ btree_remove_recursive для current_node,
-                // чтобы он заново определил путь к ptr_to_delete.
-                // Это предотвратит спуск по устаревшему пути idx.
                 btree_remove_recursive(current_node, ptr_to_delete, actually_free_payload);
                 return; // Важно! Предотвращаем двойной спуск.
             }
             // Если у ребенка достаточно ключей (>= T), просто спускаемся
             btree_remove_recursive(child_to_descend, ptr_to_delete, actually_free_payload);
         }
-        // Конец функции btree_remove_recursive
     } 
 }
 
@@ -617,8 +574,6 @@ void btree_cleanup_node(BNode* node) {
     // Free blocks held by this node
     for (int i = 0; i < node->n; i++) {
         if (node->blocks[i]) {
-            // The is_free flag might be relevant if sub-allocator marks blocks free instead of system-freeing them.
-            // But for a full cleanup, all blocks held by the tree must be system-freed.
             printf("[btree_cleanup] Freeing block %p (size %zu, is_free %d) from node %p\n",
                    node->blocks[i], node->sizes[i], node->is_free[i], node);
             free(node->blocks[i]); // System free the data block
@@ -629,7 +584,6 @@ void btree_cleanup_node(BNode* node) {
     printf("[btree_cleanup] Freeing BNode structure %p\n", node);
     free(node);
 }
-
 
 void btree_cleanup() {
     if (root) {
@@ -642,8 +596,6 @@ void btree_cleanup() {
     }
 }
 
-// Searches for a free block that best fits the requested size.
-// Marks the found block as not free (is_free = 0).
 static void search_best_fit_recursive(BNode* node, size_t size,
                                       void** best_block_ptr, size_t* best_diff_ptr,
                                       int* best_index_ptr, BNode** best_node_ptr) {
