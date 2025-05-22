@@ -20,28 +20,22 @@ TTF_Font* font = NULL;
 int visual_initialized = 0;
 static int tree_changed = 1;
 
-// Для debounce при изменении размера окна
 static Uint32 last_resize_time = 0;
 static const Uint32 RESIZE_DEBOUNCE_MS = 100;
 
-// Для debounce логов о количестве узлов
 static Uint32 last_node_log_time = 0;
-static const Uint32 NODE_LOG_DEBOUNCE_MS = 1000; // Задержка 1 секунда для логов о количестве узлов
+static const Uint32 NODE_LOG_DEBOUNCE_MS = 1000;
 
-// Файл для логов
 static FILE* visual_log_file = NULL;
 
-// Функция для логирования в файл
 void visual_log(const char* message) {
     if (!visual_log_file) return;
     time_t now = time(NULL);
     char* timestamp = ctime(&now);
-    timestamp[strlen(timestamp) - 1] = '\0'; // Удаляем \n
+    timestamp[strlen(timestamp) - 1] = '\0';
     fprintf(visual_log_file, "[%s] [visual] %s\n", timestamp, message);
-    fflush(visual_log_file);
 }
 
-// Инициализация логирования
 void visual_init_logging() {
     visual_log_file = fopen("visual.log", "a");
     if (!visual_log_file) {
@@ -49,7 +43,6 @@ void visual_init_logging() {
     }
 }
 
-// Очистка логирования
 void visual_cleanup_logging() {
     if (visual_log_file) {
         fclose(visual_log_file);
@@ -73,7 +66,7 @@ void calculate_level_width(BNode* node, int depth, LevelInfo* levels, int max_de
     }
 }
 
-void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale, LevelInfo* levels);
+void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale, LevelInfo* levels, SDL_Rect* viewport);
 
 void draw_tree(int offset_x, int offset_y, float scale) {
     extern int tree_modified;
@@ -87,8 +80,9 @@ void draw_tree(int offset_x, int offset_y, float scale) {
     LevelInfo levels[10] = {0};
     calculate_level_width(root, 0, levels, 10);
 
+    SDL_Rect viewport = {0, 0, WINDOW_WIDTH / scale, WINDOW_HEIGHT / scale};
     int node_count = 0;
-    draw_node(root, WINDOW_WIDTH / 2 + offset_x, 50 + offset_y, 0, &node_count, 0, 0, scale, levels);
+    draw_node(root, WINDOW_WIDTH / 2 + offset_x, 50 + offset_y, 0, &node_count, 0, 0, scale, levels, &viewport);
     if (node_count != last_node_count) {
         Uint32 current_time = SDL_GetTicks();
         if (current_time - last_node_log_time >= NODE_LOG_DEBOUNCE_MS) {
@@ -146,8 +140,15 @@ void draw_rect_with_text(int x, int y, size_t size, void* addr, int is_free) {
     }
 }
 
-void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale, LevelInfo* levels) {
-    if (!node) return;
+void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent_x, int parent_y, float scale, LevelInfo* levels, SDL_Rect* viewport) {
+    if (!node || node->n == 0) return; // Пропускаем пустые узлы
+
+    int scaled_x = x * scale;
+    int scaled_y = y * scale;
+    if (scaled_x + NODE_WIDTH < viewport->x || scaled_x - NODE_WIDTH > viewport->x + viewport->w ||
+        scaled_y + NODE_HEIGHT < viewport->y || scaled_y - NODE_HEIGHT > viewport->y + viewport->h) {
+        return;
+    }
 
     int node_count_on_level = levels[depth].node_count;
     int horizontal_spacing = node_count_on_level > 1 ? (WINDOW_WIDTH - node_count_on_level * NODE_WIDTH) / (node_count_on_level - 1) : HORIZONTAL_SPACING;
@@ -155,22 +156,34 @@ void draw_node(BNode* node, int x, int y, int depth, int* node_count, int parent
     if (horizontal_spacing > HORIZONTAL_SPACING * 2) horizontal_spacing = HORIZONTAL_SPACING * 2;
 
     int first_key_x = x;
+    int has_blocks = 0;
     for (int i = 0; i < node->n; i++) {
-        int key_x = x + (i - node->n/2) * (NODE_WIDTH + horizontal_spacing);
-        if (i == 0) first_key_x = key_x;
-        draw_rect_with_text(key_x, y, node->sizes[i], node->blocks[i], node->is_free[i]);
-        (*node_count)++;
+        if (node->blocks[i]) { // Проверяем, что блок не NULL
+            int key_x = x + (i - node->n/2) * (NODE_WIDTH + horizontal_spacing);
+            if (i == 0) first_key_x = key_x;
+            draw_rect_with_text(key_x, y, node->sizes[i], node->blocks[i], node->is_free[i]);
+            (*node_count)++;
+            has_blocks = 1;
+        }
     }
 
-    if (depth > 0) {
+    int has_non_empty_children = 0;
+    for (int i = 0; i <= node->n; i++) {
+        if (node->children[i] && node->children[i]->n > 0) {
+            has_non_empty_children = 1;
+            break;
+        }
+    }
+
+    if (depth > 0 && (has_blocks || has_non_empty_children)) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderDrawLine(renderer, first_key_x, y, parent_x, parent_y + NODE_HEIGHT);
     }
 
     for (int i = 0; i <= node->n; i++) {
-        if (node->children[i]) {
+        if (node->children[i] && node->children[i]->n > 0) {
             int child_x = x + (i - node->n/2) * (NODE_WIDTH + horizontal_spacing);
-            draw_node(node->children[i], child_x, y + VERTICAL_SPACING, depth + 1, node_count, first_key_x, y, scale, levels);
+            draw_node(node->children[i], child_x, y + VERTICAL_SPACING, depth + 1, node_count, first_key_x, y, scale, levels, viewport);
         }
     }
 }

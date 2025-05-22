@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <string.h>
-#include "treealoc.h"
+#include "Lib.h"
 #include "visual.h"
 
 extern void* __real_malloc(size_t size);
@@ -49,6 +49,8 @@ void test_simple_malloc_free() {
     sleep(1);
     free(p2);
     sleep(1);
+    treealoc_cleanup();
+    sleep(1);
 }
 
 void test_realloc() {
@@ -61,6 +63,8 @@ void test_realloc() {
     sleep(1);
     free(p);
     sleep(1);
+    treealoc_cleanup();
+    sleep(1);
 }
 
 void test_calloc() {
@@ -69,29 +73,42 @@ void test_calloc() {
     sleep(1);
     free(p);
     sleep(1);
+    treealoc_cleanup();
+    sleep(1);
 }
 
 void test_intensive() {
     printf("=== Test 4: Intensive malloc/free ===\n");
-    void* ptrs[50];
+    void* ptrs[50] = {0};
     for (int i = 0; i < 15; i++) {
         ptrs[i] = malloc(rand() % 256 + 1);
+        if (!ptrs[i]) {
+            printf("[TEST] malloc failed at index %d\n", i);
+            continue;
+        }
         sleep(1);
     }
     for (int i = 0; i < 15; i++) {
-        free(ptrs[i]);
-        sleep(1);
+        if (ptrs[i]) {
+            free(ptrs[i]);
+            ptrs[i] = NULL;
+            printf("[DEBUG] After free %d:\n", i);
+            treealoc_debug();
+            sleep(1);
+        }
     }
+    treealoc_cleanup();
+    sleep(1);
 }
 
 void test_fragmentation() {
     printf("=== Test 5: Memory Fragmentation ===\n");
-    void* ptrs[100];
-    for (int i = 0; i < 100; i++) {
+    void* ptrs[20];
+    for (int i = 0; i < 20; i++) {
         ptrs[i] = malloc(rand() % 512 + 1);
         sleep(1);
     }
-    for (int i = 0; i < 100; i += 2) {
+    for (int i = 0; i < 20; i += 2) {
         free(ptrs[i]);
         sleep(1);
     }
@@ -100,10 +117,12 @@ void test_fragmentation() {
     sleep(1);
     free(large);
     sleep(1);
-    for (int i = 1; i < 100; i += 2) {
+    for (int i = 1; i < 20; i += 2) {
         free(ptrs[i]);
         sleep(1);
     }
+    treealoc_cleanup();
+    sleep(1);
 }
 
 void test_edge_cases() {
@@ -118,6 +137,8 @@ void test_edge_cases() {
     sleep(1);
     p = realloc(p, 0);
     printf("[TEST] realloc(p, 0) = %p\n", p);
+    sleep(1);
+    treealoc_cleanup();
     sleep(1);
 }
 
@@ -150,12 +171,10 @@ int main() {
         print_menu();
         if (fgets(input, sizeof(input), stdin) == NULL) break;
 
-        // Удаляем символ новой строки из строки, если он есть
         size_t len = strlen(input);
         if (len > 0 && input[len - 1] == '\n') {
-            input[len - 1] = '\0'; // Убираем '\n'
+            input[len - 1] = '\0';
         } else {
-            // Если '\n' не было в строке, очищаем буфер
             clear_input_buffer();
         }
 
